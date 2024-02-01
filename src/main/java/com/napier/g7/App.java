@@ -32,6 +32,8 @@ public class App
         a.printCountries(countriesByContinent);
 
 
+
+
         // Disconnect from database
         a.disconnect();
     }
