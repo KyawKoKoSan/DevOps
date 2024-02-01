@@ -1,6 +1,5 @@
 Use case: 17 Retrieve All the capital cities in the world organized by largest population to smallest.
- 
-==============================================================================
+=============================================================================================================
 
 CHARACTERISTIC INFORMATION
 ==========================
