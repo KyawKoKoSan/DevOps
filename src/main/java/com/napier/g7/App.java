@@ -14,6 +14,8 @@ public class App
 
         // Connect to database
         a.connect();
+        String targetContinent = "Asia";  // Replace "Asia" with the desired continent
+
 
         // Extract country population information
         ArrayList<Country> countries = a.getAllCountries();
@@ -21,6 +23,14 @@ public class App
         // Print the count of countries
         System.out.println("Number of countries: " + countries.size()+"\n");
         a.printCountries(countries);
+
+        // Get all countries in the specified continent
+        ArrayList<Country> countriesByContinent = a.countriesByContinent(targetContinent);
+        System.out.println("\n**********Countries in " + targetContinent + "********\n");
+        // Print the count of countries
+        System.out.println("Number of countries: " + countriesByContinent.size()+"\n");
+        a.printCountries(countriesByContinent);
+
 
         // Disconnect from database
         a.disconnect();
@@ -162,5 +172,60 @@ public class App
             return null;
         }
     }
+
+    /**
+     * Retrieves a list of countries based on the specified continent, ordered
+     * by population in descending order.
+     *
+     * @param continent The continent to filter countries.
+     * @return An ArrayList of Country objects representing countries in the
+     *         specified continent, ordered by population in descending order.
+     */
+    public ArrayList<Country> countriesByContinent(String continent) {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT code, name, continent, region, surfaceArea, indepYear, " +
+                            "population, lifeExpectancy, gnp, gnpOld, localName, " +
+                            "governmentForm, headOfState, capital " +
+                            "FROM country " +
+                            "WHERE continent = '" + continent + "' " +
+                            "ORDER BY population DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract country information
+            ArrayList<Country> countries = new ArrayList<>();
+            while (rset.next()) {
+                Country country = new Country();
+                country.setCode(rset.getString("code"));
+                country.setName(rset.getString("name"));
+                country.setContinent(rset.getString("continent"));
+                country.setRegion(rset.getString("region"));
+                country.setSurfaceArea(rset.getFloat("surfaceArea"));
+                country.setIndepYear(rset.getInt("indepYear"));
+                country.setPopulation(rset.getInt("population"));
+                country.setLifeExpectancy(rset.getFloat("lifeExpectancy"));
+                country.setGnp(rset.getFloat("gnp"));
+                country.setGnpOld(rset.getFloat("gnpOld"));
+                country.setLocalName(rset.getString("localName"));
+                country.setGovernmentForm(rset.getString("governmentForm"));
+                country.setHeadOfState(rset.getString("headOfState"));
+                country.setCapital(rset.getInt("capital"));
+
+                countries.add(country);
+            }
+            return countries;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get country details by continent");
+            return null;
+        }
+    }
+
 
 }
