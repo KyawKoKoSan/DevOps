@@ -2,7 +2,7 @@ Use case: 16 Retrieve the top ten populated cities in a district.
 ==============================================================================
 
 CHARACTERISTIC INFORMATION
-
+==========================
 
 Goal in Context
 ==============================================================================
