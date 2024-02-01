@@ -45,6 +45,10 @@ public class App
         System.out.println("\n**********Top "+ numberOfCountries +" Countries********\n");
         a.displayTopPopulatedCountries(numberOfCountries);
 
+        // Extract top N country population information on specific continent
+        System.out.println("\n**********Top "+ numberOfCountries +" Countries in " + targetContinent+" ********\n");
+        a.displayTopPopulatedCountriesInContinent(10,targetContinent);
+
         // Disconnect from database
         a.disconnect();
     }
@@ -347,5 +351,64 @@ public class App
             System.out.println("Failed to get top populated countries");
         }
     }
+
+
+
+    /**
+     * Displays the top N populated countries in the specified continent based
+     * on population in descending order.
+     *
+     * @param topN      The number of top populated countries to display.
+     * @param continent The continent to filter countries.
+     */
+    public void displayTopPopulatedCountriesInContinent(int topN, String continent) {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT code, name, continent, region, surfaceArea, indepYear, " +
+                            "population, lifeExpectancy, gnp, gnpOld, localName, " +
+                            "governmentForm, headOfState, capital " +
+                            "FROM country " +
+                            "WHERE continent = '" + continent + "' " +
+                            "ORDER BY population DESC " +
+                            "LIMIT " + topN;
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract country information
+            ArrayList<Country> countries = new ArrayList<>();
+            while (rset.next()) {
+                Country country = new Country();
+                country.setCode(rset.getString("code"));
+                country.setName(rset.getString("name"));
+                country.setContinent(rset.getString("continent"));
+                country.setRegion(rset.getString("region"));
+                country.setSurfaceArea(rset.getFloat("surfaceArea"));
+                country.setIndepYear(rset.getInt("indepYear"));
+                country.setPopulation(rset.getInt("population"));
+                country.setLifeExpectancy(rset.getFloat("lifeExpectancy"));
+                country.setGnp(rset.getFloat("gnp"));
+                country.setGnpOld(rset.getFloat("gnpOld"));
+                country.setLocalName(rset.getString("localName"));
+                country.setGovernmentForm(rset.getString("governmentForm"));
+                country.setHeadOfState(rset.getString("headOfState"));
+                country.setCapital(rset.getInt("capital"));
+
+                countries.add(country);
+            }
+
+            // Print the top N populated countries in the specified continent
+            printCountries(countries);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get top populated countries in the continent");
+        }
+    }
+
 
 }
