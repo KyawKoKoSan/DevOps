@@ -1,3 +1,8 @@
+/**
+ * @author Htoo Myat Linn, Kyaw Ko Ko San, Bhone Myat, Wai Yan Moe, Zayar Phyo, Pyae Sone
+ * @version 0.1-alpha-3
+ * @since 2024-01-23
+ */
 package com.napier.g7;
 
 /**
