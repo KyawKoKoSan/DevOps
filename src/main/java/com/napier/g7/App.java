@@ -14,9 +14,7 @@ public class App
         // Disconnect from database
         a.disconnect();
     }
-    /**
-     * Connection to MySQL database.
-     */
+
     private Connection con = null;
 
     /**
@@ -44,7 +42,7 @@ public class App
                 // Wait a bit for db to start
                 Thread.sleep(30000);
                 // Connect to database
-                con = DriverManager.getConnection("jdbc:mysql://db:3306/employees?useSSL=false", "root", "example");
+                con = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
                 System.out.println("Successfully connected");
                 break;
             }
@@ -78,4 +76,5 @@ public class App
             }
         }
     }
+
 }
