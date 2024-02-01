@@ -17,11 +17,10 @@ Organizational black box
 
 Level
 ==============================================================================
-
 Primary task
+
 Preconditions
 ==============================================================================
-
 
 The system has access to a database containing population data for cities in a district.
 
