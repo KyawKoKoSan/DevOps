@@ -2,41 +2,49 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- Project metadata -->
     <modelVersion>4.0.0</modelVersion>
-
+    <!-- Project coordinates -->
     <groupId>com.napier.g7</groupId>
     <artifactId>group7</artifactId>
-    <version>0.1.0.2(0.1-alpha-2)</version>
-
+    <version>0.1.0.3(0.1-alpha-3)</version>
+    <!-- Project dependencies -->
     <dependencies>
+        <!-- MySQL Connector Java Dependency -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.18</version>
         </dependency>
     </dependencies>
-
+    <!-- Project properties -->
     <properties>
+        <!-- Java compiler versions -->
         <maven.compiler.source>10</maven.compiler.source>
         <maven.compiler.target>10</maven.compiler.target>
     </properties>
-
+    <!-- Build configuration -->
     <build>
         <plugins>
+            <!-- Maven Assembly Plugin Configuration -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
+                    <!-- JAR file configuration -->
                     <archive>
                         <manifest>
+                            <!-- Main class for executable JAR -->
                             <mainClass>com.napier.g7.App</mainClass>
                         </manifest>
                     </archive>
+                    <!-- Descriptor references for assembly plugin -->
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                 </configuration>
+                <!-- Execution configuration -->
                 <executions>
                     <execution>
                         <id>make-assembly</id>
