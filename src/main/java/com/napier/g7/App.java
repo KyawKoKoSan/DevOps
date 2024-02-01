@@ -53,6 +53,21 @@ public class App
         System.out.println("\n**********Top "+ numberOfCountries +" Countries in " + targetRegion+" ********\n");
         a.displayTopPopulatedCountriesInRegion(10,targetRegion);
 
+        // Extract city population information
+        ArrayList<City> cities = a.getAllCities();
+        System.out.println("\n**********Cities********\n");
+        // Print the count of cities
+        System.out.println("Number of cities: " + cities.size()+"\n");
+        a.printCities(cities);
+
+        // Get all cities in the specified continent
+        ArrayList<City> citiesByContinent = a.getCitiesByContinent(targetContinent);
+        System.out.println("\n**********Cities in " + targetContinent + "********\n");
+        // Print the count of cities
+        System.out.println("Number of cities: " + citiesByContinent.size()+"\n");
+        a.printCities(citiesByContinent);
+
+
         // Disconnect from database
         a.disconnect();
     }
@@ -141,6 +156,27 @@ public class App
         }
     }
 
+    /**
+     * Prints the details of a list of cities in a formatted table.
+     *
+     * @param cities The list of City objects to print.
+     */
+    public void printCities(ArrayList<City> cities) {
+
+        // Print header
+        System.out.println(String.format("%-40s %-40s %-30s %-15s",
+                "Name", "CountryName", "District", "Population"));
+
+        // Loop over all cities in the list
+        for (City city : cities) {
+            // Format population with commas
+            NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+            String formattedPopulation = numberFormat.format(city.getPopulation());
+            String cityString = String.format("%-40s %-40s %-30s %-15s",
+                    city.getName(), city.getCountryCode(), city.getDistrict(), formattedPopulation);
+            System.out.println(cityString);
+        }
+    }
 
     /**
      * Retrieves a list of all countries ordered by population in descending
@@ -467,6 +503,93 @@ public class App
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to get top populated countries in the region");
+        }
+    }
+
+    /**
+     * Retrieves a list of all cities ordered by population in descending
+     * order, along with their respective country names.
+     *
+     * @return An ArrayList of City objects representing all cities,
+     *         ordered by population in descending order.
+     */
+    public ArrayList<City> getAllCities() {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT city.ID, city.Name AS CityName, country.Name AS CountryName, city.District, city.Population " +
+                            "FROM city " +
+                            "JOIN country ON city.CountryCode = country.Code " +
+                            "ORDER BY city.Population DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract city information
+            ArrayList<City> cities = new ArrayList<>();
+            while (rset.next()) {
+                City city = new City();
+                city.setId(rset.getInt("ID"));
+                city.setName(rset.getString("CityName"));
+                city.setCountryCode(rset.getString("CountryName"));  // Renamed to CountryName
+                city.setDistrict(rset.getString("District"));
+                city.setPopulation(rset.getInt("Population"));
+
+                cities.add(city);
+            }
+            return cities;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get city details");
+            return null;
+        }
+    }
+
+    /**
+     * Retrieves a list of cities based on the specified continent, along with
+     * their respective country names, ordered by population in descending
+     * order.
+     *
+     * @param continent The continent to filter cities.
+     * @return An ArrayList of City objects representing cities in the specified
+     *         continent, ordered by population in descending order.
+     */
+    public ArrayList<City> getCitiesByContinent(String continent) {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT city.ID, city.Name AS CityName, country.Name AS CountryName, city.District, city.Population " +
+                            "FROM city " +
+                            "JOIN country ON city.CountryCode = country.Code " +
+                            "WHERE country.Continent = '" + continent + "' " +
+                            "ORDER BY city.Population DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract city information
+            ArrayList<City> cities = new ArrayList<>();
+            while (rset.next()) {
+                City city = new City();
+                city.setId(rset.getInt("ID"));
+                city.setName(rset.getString("CityName"));
+                city.setCountryCode(rset.getString("CountryName"));  // Renamed to CountryName
+                city.setDistrict(rset.getString("District"));
+                city.setPopulation(rset.getInt("Population"));
+
+                cities.add(city);
+            }
+            return cities;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get city details by continent");
+            return null;
         }
     }
 
