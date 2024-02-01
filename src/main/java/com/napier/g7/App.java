@@ -31,7 +31,9 @@ public class App
 
         // Connect to database
         a.connect();
-        String targetContinent = "Asia";  // Replace "Asia" with the desired continent
+
+        //Declaring Variables
+        String targetContinent = "Europe";  // Replace "Asia" with the desired continent
         String targetRegion = "Southeast Asia";  // Replace "Southeast Asia" with the desired region
         int numberOfCountries = 10; // Replace "10" with the desired number
 
@@ -41,21 +43,24 @@ public class App
         ArrayList<Country> countries = a.getAllCountries();
         System.out.println("\n**********Countries********\n");
         // Print the count of countries
-        System.out.println("Number of countries: " + countries.size()+"\n");
+        int countOfCountries = countries.size()-1;
+        System.out.println("Number of countries: " + countOfCountries +"\n");
         a.printCountries(countries);
 
         // Get all countries in the specified continent
         ArrayList<Country> countriesByContinent = a.countriesByContinent(targetContinent);
         System.out.println("\n**********Countries in " + targetContinent + "********\n");
         // Print the count of countries
-        System.out.println("Number of countries: " + countriesByContinent.size()+"\n");
+        int countCountriesByContinent = countriesByContinent.size()-1;
+        System.out.println("Number of countries: " + countCountriesByContinent +"\n");
         a.printCountries(countriesByContinent);
 
         // Get all countries in the specified region
         ArrayList<Country> countriesByRegion = a.countriesByRegion("Southeast Asia");
         System.out.println("\n**********Countries in " + targetRegion + "********\n");
         // Print the count of countries
-        System.out.println("Number of countries: " + countriesByRegion.size()+"\n");
+        int countCountriesByRegion = countriesByRegion.size()-1;
+        System.out.println("Number of countries: " + countCountriesByRegion+"\n");
         a.printCountries(countriesByRegion);
 
         // Extract top N country population information
@@ -74,14 +79,16 @@ public class App
         ArrayList<City> cities = a.getAllCities();
         System.out.println("\n**********Cities********\n");
         // Print the count of cities
-        System.out.println("Number of cities: " + cities.size()+"\n");
+        int countOfCities = cities.size()-1;
+        System.out.println("Number of cities: " + countOfCities+"\n");
         a.printCities(cities);
 
         // Get all cities in the specified continent
         ArrayList<City> citiesByContinent = a.getCitiesByContinent(targetContinent);
         System.out.println("\n**********Cities in " + targetContinent + "********\n");
         // Print the count of cities
-        System.out.println("Number of cities: " + citiesByContinent.size()+"\n");
+        int countCitiesByContinent = citiesByContinent.size()-1;
+        System.out.println("Number of cities: " + countCitiesByContinent+"\n");
         a.printCities(citiesByContinent);
 
 
