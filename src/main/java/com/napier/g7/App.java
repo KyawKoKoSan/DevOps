@@ -122,6 +122,27 @@ public class App
         }
     }
 
+    /**
+     * Prints the details of a list of cities in a formatted table.
+     *
+     * @param cities The list of City objects to print.
+     */
+    public void printCities(ArrayList<City> cities) {
+
+        // Print header
+        System.out.println(String.format("%-40s %-40s %-30s %-15s",
+                "Name", "CountryName", "District", "Population"));
+
+        // Loop over all cities in the list
+        for (City city : cities) {
+            // Format population with commas
+            NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+            String formattedPopulation = numberFormat.format(city.getPopulation());
+            String cityString = String.format("%-40s %-40s %-30s %-15s",
+                    city.getName(), city.getCountryCode(), city.getDistrict(), formattedPopulation);
+            System.out.println(cityString);
+        }
+    }
 
     /**
      * Retrieves a list of all countries ordered by population in descending
