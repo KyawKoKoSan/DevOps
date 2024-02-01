@@ -36,7 +36,7 @@ This is a Java application that connects to a MySQL database containing world da
 
 ## Version
 
-Current version: 0.1-alpha-3 (Released on 2024-01-23)
+Current version: 0.1.1-alpha-3 (Released on 2024-01-23)
 
 # Software Engineering Methods
 
