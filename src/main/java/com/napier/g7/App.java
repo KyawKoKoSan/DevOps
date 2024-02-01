@@ -32,7 +32,12 @@ public class App
         a.printCountries(countriesByContinent);
 
 
-
+        // Extract city population information
+        ArrayList<City> cities = a.getAllCities();
+        System.out.println("\n**********Cities********\n");
+        // Print the count of cities
+        System.out.println("Number of cities: " + cities.size()+"\n");
+        a.printCities(cities);
 
         // Disconnect from database
         a.disconnect();
@@ -250,5 +255,47 @@ public class App
         }
     }
 
+
+    /**
+     * Retrieves a list of all cities ordered by population in descending
+     * order, along with their respective country names.
+     *
+     * @return An ArrayList of City objects representing all cities,
+     *         ordered by population in descending order.
+     */
+    public ArrayList<City> getAllCities() {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT city.ID, city.Name AS CityName, country.Name AS CountryName, city.District, city.Population " +
+                            "FROM city " +
+                            "JOIN country ON city.CountryCode = country.Code " +
+                            "ORDER BY city.Population DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract city information
+            ArrayList<City> cities = new ArrayList<>();
+            while (rset.next()) {
+                City city = new City();
+                city.setId(rset.getInt("ID"));
+                city.setName(rset.getString("CityName"));
+                city.setCountryCode(rset.getString("CountryName"));  // Renamed to CountryName
+                city.setDistrict(rset.getString("District"));
+                city.setPopulation(rset.getInt("Population"));
+
+                cities.add(city);
+            }
+            return cities;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get city details");
+            return null;
+        }
+    }
 
 }
