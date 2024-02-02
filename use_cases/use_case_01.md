@@ -32,7 +32,7 @@ A list of countries in the world, ordered by population from largest to smallest
 **Failed End Condition**
 ========================
 
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process the system will shows "Failed to get country details".
 
 **Primary Actor**
 ==================
