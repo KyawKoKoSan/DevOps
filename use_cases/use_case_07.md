@@ -32,7 +32,7 @@ A list of cities in the world, ordered by population from largest to smallest, i
 Failed End Condition
 ========================
 
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process the system will show "Failed to get city details" message.
 
 Primary Actor
 ==================
