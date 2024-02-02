@@ -32,7 +32,7 @@ A list of countries in a region, ordered by top ten, is provided to the Analyst.
 Failed End Condition
 ======================
 
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process the system will show "Failed to get top populated countries in the region" message.
 
 Primary Actor
 =================
