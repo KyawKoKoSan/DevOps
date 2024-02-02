@@ -32,7 +32,7 @@ A list of countries in a continent, ordered by population from largest to smalle
 **Failed End Condition**
 ======================
 
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process the system will show ""Failed to get country details by continent" message.
 
 **Primary Actor**
 =================
