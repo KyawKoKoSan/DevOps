@@ -32,7 +32,7 @@ A list of countries in a region, ordered by population from largest to smallest,
 **Failed End Condition**
 ======================
 
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process the system will show "Failed to get country details by region" message.
 
 **Primary Actor**
 =================
