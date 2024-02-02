@@ -32,7 +32,7 @@ A list of countries in a continent, ordered by top ten, is provided to the Analy
 **Failed End Condition**
 ======================
 
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process the system will show "Failed to get top populated countries in the continent" message.
 
 **Primary Actor**
 =================
