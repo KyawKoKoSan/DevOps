@@ -3,11 +3,13 @@ Use case: 21 Retrieve top ten populated capital cities in a continent.
 ==============================================================================
 
 CHARACTERISTIC INFORMATION
-
+===========================
 
 Goal in Context
 ==============================================================================
+
 As a analyst, I aim to obtain a list of the top ten most populated capital cities within a specified continents, so that I can use  this information  which is crucial for understanding the demographic landscape of the continent, facilitating regional planning, and aiding policymakers in making informed decisions related to infrastructure, economic development, and public services within that specific continental context.
+
 Scope
 ==============================================================================
 
