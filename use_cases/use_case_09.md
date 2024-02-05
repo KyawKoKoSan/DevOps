@@ -56,8 +56,10 @@ MAIN SUCCESS SCENARIO
 EXTENSIONS
 ================
 
-In step 3, if there is an error during the retrieval or processing of data, the system informs the analyst about the issue.
-In step 3.1, if the database does not contain the required population data, the system informs the analyst that the information is unavailable.
+In step 3,
+
+1. if there is an error during the retrieval or processing of data, the system informs the analyst about the issue.
+2. if the database does not contain the required population data, the system informs the analyst that the information is unavailable.
 
 SUB-VARIATIONS
 ====================
@@ -67,4 +69,4 @@ None.
 SCHEDULE
 ================
 
-DUE DATE: 2/2/2024
+DUE DATE: 4/2/2024
