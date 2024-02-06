@@ -29,7 +29,7 @@ public class Country {
     private Integer indepYear;
 
     // Population of the country.
-    private int population;
+    private long population;
 
     // Average life expectancy in the country.
     private Float lifeExpectancy;
@@ -51,6 +51,9 @@ public class Country {
 
     // Capital city (assuming it is an ID referencing the city).
     private int capital;
+
+    // Additional attribute to store capital name
+    private String capitalName;
 
     /**
      * Get the country code.
@@ -165,8 +168,17 @@ public class Country {
      *
      * @return The population of the country.
      */
-    public int getPopulation() {
+    public long getPopulation() {
         return population;
+    }
+
+    /**
+     * Get the capital name.
+     *
+     * @return The capital name.
+     */
+    public String getCapitalName() {
+        return capitalName;
     }
 
     /**
@@ -174,7 +186,7 @@ public class Country {
      *
      * @param population The population to set.
      */
-    public void setPopulation(int population) {
+    public void setPopulation(long population) {
         this.population = population;
     }
 
@@ -302,5 +314,14 @@ public class Country {
      */
     public void setCapital(int capital) {
         this.capital = capital;
+    }
+
+    /**
+     * Set the capital name.
+     *
+     * @param capitalName The capital name to set.
+     */
+    public void setCapitalName(String capitalName) {
+        this.capitalName = capitalName;
     }
 }
