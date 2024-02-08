@@ -785,4 +785,105 @@ public class AppIntegrationTest
                 "Last city should be 'Budapest'");
     }
 
+    /**
+     * Test case for displayTopPopulatedCitiesInRegion method when negative input is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for negative input.
+     */
+    @Test
+    void testDisplayTopPopulatedCitiesInRegionNegativeInput() {
+        // Define a negative value for testing
+        int topN = -5;
+        String region = "Southeast Asia"; // Define a region for testing
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInRegion(topN, region);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for negative input");
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInRegion method when zero input is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for zero input.
+     */
+    @Test
+    void testDisplayTopPopulatedCitiesInRegionZeroInput() {
+        // Define a zero value for testing
+        int topN = 0;
+        String region = "Southeast Asia"; // Define a region for testing
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInRegion(topN, region);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for zero input");
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInRegion method when null region is provided.
+     * <p>
+     * Verifies that the method returns null for null region input.
+     */
+
+    @Test
+    void testDisplayTopPopulatedCitiesInRegionNullRegion() {
+        // Define a null region for testing
+        int topN = 5;
+        String region = null;
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInRegion(topN, region);
+
+        // Check if the list of cities is null
+        assertNull(cities, "List of cities should be null");
+
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInRegion method when an invalid region is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for an invalid region.
+     */
+    @Test
+    void testDisplayTopPopulatedCitiesInRegionInvalidRegion() {
+        // Define an invalid region name for testing
+        int topN = 5;
+        String region = "InvalidRegion";
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInRegion(topN, region);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for invalid region");
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInRegion method with correct input.
+     * <p>
+     * Verifies that the method returns a non-null and non-empty list of cities for a valid region.
+     * Also verifies the correctness of the last city in the list.
+     */
+
+    @Test
+    void testDisplayTopPopulatedCitiesInRegionWithCorrectInput() {
+        // Define a positive value for testing
+        int topN = 10;
+        String region = "Southeast Asia"; // Define a region for testing
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInRegion(topN, region);
+
+        // Check if the list of cities is not null
+        assertNotNull(cities, "List of cities should not be null");
+
+        // Check if the list of cities is not empty
+        assertFalse(cities.isEmpty(), "List of cities should not be empty");
+
+        City lastCity = cities.get(cities.size() - 1);
+        assertEquals("Manila", lastCity.getName(),
+                "Last city should be 'Manila'");
+    }
+
 }
