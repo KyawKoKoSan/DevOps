@@ -71,4 +71,53 @@ public class AppTest
         app.printCountries(countries);
     }
 
+
+    /**
+     * Test case for printing cities when the input list is null.
+     */
+    @Test
+    void printCitiesTestNull() {
+        app.printCities(null);
+    }
+
+    /**
+     * Test case for printing cities when the input list is empty.
+     */
+    @Test
+    void printCitiesTestEmpty() {
+        ArrayList<City> cities = new ArrayList<>();
+        app.printCities(cities);
+    }
+
+    /**
+     * Test case for printing cities when the input list contains null elements.
+     */
+    @Test
+    void printCitiesTestContainsNull() {
+        ArrayList<City> cities = new ArrayList<>();
+        cities.add(null);
+        app.printCities(cities);
+    }
+
+    /**
+     * Test case for printing cities when the input list contains valid city objects.
+     */
+    @Test
+    void printCitiesTest() {
+        // Create a list of cities
+        ArrayList<City> cities = new ArrayList<>();
+
+        // Create a few city objects
+        City city1 = new City();
+        city1.setName("Paris");
+        city1.setCountryCode("FRA");
+        city1.setDistrict("Île-de-France");
+        city1.setPopulation(2140526); // Population of Paris
+        cities.add(city1);
+
+        // Call the method under test
+        System.out.println("\n********** Cities Details ********\n");
+        app.printCities(cities);
+    }
+
 }

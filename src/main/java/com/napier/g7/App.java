@@ -194,13 +194,19 @@ public class App
      * @param cities The list of City objects to print.
      */
     public void printCities(ArrayList<City> cities) {
-
+        if (cities == null)
+        {
+            System.out.println("No cities");
+            return;
+        }
         // Print header
         System.out.println(String.format("%-40s %-40s %-30s %-15s",
                 "Name", "CountryName", "District", "Population"));
 
         // Loop over all cities in the list
         for (City city : cities) {
+            if(city == null)
+                continue;
             // Format population with commas
             NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
             String formattedPopulation = numberFormat.format(city.getPopulation());
