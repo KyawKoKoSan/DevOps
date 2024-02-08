@@ -39,7 +39,9 @@ public class App
         //Declaring Variables
         String targetContinent = "Europe";  // Replace "Asia" with the desired continent
         String targetRegion = "Southeast Asia";  // Replace "Southeast Asia" with the desired region
+        String targetCountry = "Myanmar"; // Replace "Myanmar" with the desired country
         int numberOfCountries = 10; // Replace "10" with the desired number
+
 
 
 
@@ -102,6 +104,14 @@ public class App
         int countCitiesByRegion = citiesByRegion.size();
         System.out.println("Number of cities: " + countCitiesByRegion+"\n");
         a.printCities(citiesByRegion);
+
+        // Get all cities in the specified country
+        ArrayList<City> citiesByCountry = a.citiesByCountry(targetCountry);
+        System.out.println("\n**********Cities in " + targetCountry + "********\n");
+        // Print the count of cities
+        int countCitiesByCountry = citiesByCountry.size();
+        System.out.println("Number of cities: " + countCitiesByCountry+"\n");
+        a.printCities(citiesByCountry);
 
         // Disconnect from database
         a.disconnect();
@@ -757,6 +767,60 @@ public class App
             // Print error messages in case of an exception
             System.out.println(e.getMessage());
             System.out.println("Failed to get city details by region");
+            return new ArrayList<>();
+        }
+    }
+
+
+    /**
+     * Retrieves all the cities in a specified country, organized by largest population to smallest.
+     *
+     * @param country The country for which cities are to be retrieved.
+     * @return An ArrayList of City objects representing cities in the specified country.
+     */
+    public ArrayList<City> citiesByCountry(String country) {
+        try {
+            if (country == null) {
+                System.out.println("Country cannot be null");
+                return null;
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT city.ID, city.Name AS cityName, country.Name AS countryName, city.District, city.Population " +
+                            "FROM city " +
+                            "JOIN country ON city.CountryCode = country.Code " +
+                            "WHERE country.Name = '" + country + "' " +
+                            "ORDER BY city.Population DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract city information
+            ArrayList<City> cities = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new City object
+                City city = new City();
+                // Set city attributes from the result set
+                city.setId(rset.getInt("ID"));
+                city.setName(rset.getString("cityName"));
+                city.setCountryCode(rset.getString("countryName"));
+                city.setDistrict(rset.getString("District"));
+                city.setPopulation(rset.getLong("Population"));
+                // Add the City object to the ArrayList
+                cities.add(city);
+            }
+            // Check if any cities were found for the given country
+            if (cities.isEmpty()) {
+                System.out.println("No cities found for country: " + country);
+            }
+            return cities;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get city details by country");
             return new ArrayList<>();
         }
     }
