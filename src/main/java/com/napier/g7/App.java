@@ -258,14 +258,17 @@ public class App
                 // Add the Country object to the ArrayList
                 countries.add(country);
             }
+            // Check if any countries were found
+            if (countries.isEmpty()) {
+                System.out.println("No countries found");
+            }
             // Return the list of countries
             return countries;
         } catch (Exception e) {
             // Print error messages in case of an exception
             System.out.println(e.getMessage());
             System.out.println("Failed to get country details");
-            // Return null in case of an exception
-            return null;
+            return new ArrayList<>();
         }
     }
 
