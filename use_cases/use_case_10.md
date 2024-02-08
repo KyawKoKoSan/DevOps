@@ -32,7 +32,7 @@ A list of cities in a country, ordered by population from largest to smallest, i
 Failed End Condition
 ======================
 
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process the system will show "Failed to get city details by country" message.
 
 Primary Actor
 =================
