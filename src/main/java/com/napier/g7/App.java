@@ -420,7 +420,12 @@ public class App
      *
      * @param topN The number of top populated countries to display.
      */
-    public void displayTopPopulatedCountries(int topN) {
+    public ArrayList<Country> displayTopPopulatedCountries(int topN) {
+        // Check if topN is non-positive
+        if (topN < 0) {
+            System.out.println("Invalid input: topN should be a positive integer.");
+            return new ArrayList<>(); // Return an empty list
+        }
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -462,14 +467,22 @@ public class App
                 // Add the Country object to the ArrayList
                 countries.add(country);
             }
+            // Check if any countries were found for the given continent
+            if (countries.isEmpty()) {
+                System.out.println("No countries found for Top: " + topN);
+            }
+            else{
+                // Print the top N populated countries
+                printCountries(countries);
+            }
 
-            // Print the top N populated countries
-            printCountries(countries);
-
+            // Return the list of countries
+            return countries;
         } catch (Exception e) {
             // Print error messages in case of an exception
             System.out.println(e.getMessage());
             System.out.println("Failed to get top populated countries");
+            return new ArrayList<>();
         }
     }
 

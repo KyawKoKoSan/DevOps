@@ -144,4 +144,56 @@ public class AppIntegrationTest
         assertEquals("Brunei", lastCountry.getName(),
                 "Last country should be 'Brunei'");
     }
+
+    /**
+     * Test case for displaying top populated countries when the input is negative.
+     */
+    @Test
+    void testDisplayTopPopulatedCountriesNegativeInput() {
+        // Define a negative value for testing
+        int topN = -5;
+
+        // Call the method under test
+        ArrayList<Country> countries = app.displayTopPopulatedCountries(topN);
+
+        // Check if the list of countries is empty
+        assertTrue(countries.isEmpty(), "List of countries should be empty for negative input");
+    }
+
+    /**
+     * Test case for displaying top populated countries when the input is zero.
+     */
+    @Test
+    void testDisplayTopPopulatedCountriesZeroInput() {
+        // Define a zero value for testing
+        int topN = 0;
+
+        // Call the method under test
+        ArrayList<Country> countries = app.displayTopPopulatedCountries(topN);
+
+        // Check if the list of countries is empty
+        assertTrue(countries.isEmpty(), "List of countries should be empty for zero input");
+    }
+
+    /**
+     * Test case for displaying top populated countries with correct input.
+     */
+    @Test
+    void testDisplayTopPopulatedCountriesWithCorrectInput() {
+        // Define a positive value for testing
+        int topN = 10;
+
+        // Call the method under test
+        ArrayList<Country> countries = app.displayTopPopulatedCountries(topN);
+
+        // Check if the list of countries is not null
+        assertNotNull(countries, "List of countries should not be null");
+
+        // Check if the list of countries is not empty
+        assertFalse(countries.isEmpty(), "List of countries should not be empty");
+
+        Country lastCountry = countries.get(countries.size() - 1);
+        assertEquals("Nigeria", lastCountry.getName(),
+                "Last country should be 'Nigeria '");
+    }
 }
