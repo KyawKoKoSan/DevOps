@@ -989,4 +989,104 @@ public class AppIntegrationTest
         assertEquals("Mergui (Myeik)", lastCity.getName(),
                 "Last city should be 'Mergui (Myeik)'");
     }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInDistrict method when negative input is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for negative input.
+     */
+    @Test
+    void testDisplayTopPopulatedCitiesInDistrictNegativeInput() {
+        // Define a negative value for testing
+        int topN = -5;
+        String district = "England"; // Define a district for testing
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInDistrict(topN, district);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for negative input");
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInDistrict method when zero input is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for zero input.
+     */
+
+    @Test
+    void testDisplayTopPopulatedCitiesInDistrictZeroInput() {
+        // Define a zero value for testing
+        int topN = 0;
+        String district = "England"; // Define a district for testing
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInDistrict(topN, district);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for zero input");
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInDistrict method when null district is provided.
+     * <p>
+     * Verifies that the method returns null for null district input.
+     */
+    @Test
+    void testDisplayTopPopulatedCitiesInDistrictNullDistrict() {
+        // Define a null district for testing
+        int topN = 5;
+        String district = null;
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInDistrict(topN, district);
+
+        // Check if the list of cities is null
+        assertNull(cities, "List of cities should be null");
+
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInDistrict method when an invalid district is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for an invalid district.
+     */
+    @Test
+    void testDisplayTopPopulatedCitiesInCountryInvalidDistrict() {
+        // Define an invalid country name for testing
+        int topN = 5;
+        String country = "InvalidDistrict";
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInCountry(topN, country);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for invalid district");
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInDistrict method with correct input.
+     * <p>
+     * Verifies that the method returns a non-null and non-empty list of cities for a valid district.
+     * Also verifies the correctness of the last city in the list.
+     */
+    @Test
+    void testDisplayTopPopulatedCitiesInDistrictWithCorrectInput() {
+        // Define a positive value for testing
+        int topN = 10;
+        String district = "England"; // Define a district for testing
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInDistrict(topN, district);
+
+        // Check if the list of cities is not null
+        assertNotNull(cities, "List of cities should not be null");
+
+        // Check if the list of cities is not empty
+        assertFalse(cities.isEmpty(), "List of cities should not be empty");
+
+        City lastCity = cities.get(cities.size() - 1);
+        assertEquals("Bradford", lastCity.getName(),
+                "Last city should be 'Bradford'");
+    }
 }
