@@ -886,4 +886,107 @@ public class AppIntegrationTest
                 "Last city should be 'Manila'");
     }
 
+    /**
+     * Test case for displayTopPopulatedCitiesInCountry method when negative input is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for negative input.
+     */
+
+    @Test
+    void testDisplayTopPopulatedCitiesInCountryNegativeInput() {
+        // Define a negative value for testing
+        int topN = -5;
+        String country = "Myanmar"; // Define a country for testing
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInCountry(topN, country);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for negative input");
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInCountry method when zero input is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for zero input.
+     */
+
+    @Test
+    void testDisplayTopPopulatedCitiesInCountryZeroInput() {
+        // Define a zero value for testing
+        int topN = 0;
+        String country = "Myanmar"; // Define a country for testing
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInCountry(topN, country);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for zero input");
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInCountry method when null country is provided.
+     * <p>
+     * Verifies that the method returns null for null country input.
+     */
+
+    @Test
+    void testDisplayTopPopulatedCitiesInCountryNullCountry() {
+        // Define a null country for testing
+        int topN = 5;
+        String country = null;
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInCountry(topN, country);
+
+        // Check if the list of cities is null
+        assertNull(cities, "List of cities should be null");
+
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInCountry method when an invalid country is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for an invalid country.
+     */
+
+    @Test
+    void testDisplayTopPopulatedCitiesInCountryInvalidCountry() {
+        // Define an invalid country name for testing
+        int topN = 5;
+        String country = "InvalidCountry";
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInCountry(topN, country);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for invalid country");
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInCountry method with correct input.
+     * <p>
+     * Verifies that the method returns a non-null and non-empty list of cities for a valid country.
+     * Also verifies the correctness of the last city in the list.
+     */
+
+    @Test
+    void testDisplayTopPopulatedCitiesInCountryWithCorrectInput() {
+        // Define a positive value for testing
+        int topN = 10;
+        String country = "Myanmar"; // Define a country for testing
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInCountry(topN, country);
+
+        // Check if the list of cities is not null
+        assertNotNull(cities, "List of cities should not be null");
+
+        // Check if the list of cities is not empty
+        assertFalse(cities.isEmpty(), "List of cities should not be empty");
+
+        City lastCity = cities.get(cities.size() - 1);
+        assertEquals("Mergui (Myeik)", lastCity.getName(),
+                "Last city should be 'Mergui (Myeik)'");
+    }
 }
