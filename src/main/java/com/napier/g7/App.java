@@ -37,9 +37,10 @@ public class App
         }
 
         //Declaring Variables
-        String targetContinent = "Europe";  // Replace "Asia" with the desired continent
+        String targetContinent = "Europe";  // Replace "Europe" with the desired continent
         String targetRegion = "Southeast Asia";  // Replace "Southeast Asia" with the desired region
         String targetCountry = "Myanmar"; // Replace "Myanmar" with the desired country
+        String targetDistrict = "England"; // Replace "England" with the desired District
         int numberOfCountries = 10; // Replace "10" with the desired number
 
 
@@ -112,6 +113,14 @@ public class App
         int countCitiesByCountry = citiesByCountry.size();
         System.out.println("Number of cities: " + countCitiesByCountry+"\n");
         a.printCities(citiesByCountry);
+
+        // Get all cities in the specified district
+        ArrayList<City> citiesByDistrict = a.citiesByDistrict(targetDistrict);
+        System.out.println("\n**********Cities in " + targetDistrict + "********\n");
+        // Print the count of cities
+        int countCitiesByDistrict = citiesByDistrict.size();
+        System.out.println("Number of cities: " + countCitiesByDistrict+"\n");
+        a.printCities(citiesByDistrict);
 
         // Disconnect from database
         a.disconnect();
@@ -855,6 +864,59 @@ public class App
             // Print error messages in case of an exception
             System.out.println(e.getMessage());
             System.out.println("Failed to get city details by country");
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Retrieves all the cities in a specified district, organized by largest population to smallest.
+     *
+     * @param district The district for which cities are to be retrieved.
+     * @return An ArrayList of City objects representing cities in the specified district.
+     */
+    public ArrayList<City> citiesByDistrict(String district) {
+        try {
+            if (district == null) {
+                System.out.println("District cannot be null");
+                return null;
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT city.ID, city.Name AS cityName, country.Name AS countryName, city.District, city.Population " +
+                            "FROM city " +
+                            "JOIN country ON city.CountryCode = country.Code " +
+                            "WHERE city.District = '" + district + "' " +
+                            "ORDER BY city.Population DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract city information
+            ArrayList<City> cities = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new City object
+                City city = new City();
+                // Set city attributes from the result set
+                city.setId(rset.getInt("ID"));
+                city.setName(rset.getString("cityName"));
+                city.setCountryCode(rset.getString("countryName"));
+                city.setDistrict(rset.getString("District"));
+                city.setPopulation(rset.getLong("Population"));
+                // Add the City object to the ArrayList
+                cities.add(city);
+            }
+            // Check if any cities were found for the given district
+            if (cities.isEmpty()) {
+                System.out.println("No cities found for district: " + district);
+            }
+            return cities;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get city details by district");
             return new ArrayList<>();
         }
     }
