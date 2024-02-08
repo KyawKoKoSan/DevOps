@@ -34,7 +34,7 @@ Failed End Condition
 ==============================================================================
 
 
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process and the system will show "Failed to get top populated cities in the district" message.
 
 Primary Actor
 ==============================================================================
