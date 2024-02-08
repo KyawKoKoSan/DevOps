@@ -196,4 +196,98 @@ public class AppIntegrationTest
         assertEquals("Nigeria", lastCountry.getName(),
                 "Last country should be 'Nigeria '");
     }
+
+    /**
+     * Test method to verify the behavior of displayTopPopulatedCountriesInContinent
+     * when negative input is provided.
+     */
+    @Test
+    void testDisplayTopPopulatedCountriesInContinentNegativeInput() {
+        // Define a negative value for testing
+        int topN = -5;
+        String continent = "Europe"; // Define a continent for testing
+
+        // Call the method under test
+        ArrayList<Country> countries = app.displayTopPopulatedCountriesInContinent(topN, continent);
+
+        // Check if the list of countries is empty
+        assertTrue(countries.isEmpty(), "List of countries should be empty for negative input");
+    }
+
+    /**
+     * Test method to verify the behavior of displayTopPopulatedCountriesInContinent
+     * when zero input is provided.
+     */
+    @Test
+    void testDisplayTopPopulatedCountriesInContinentZeroInput() {
+        // Define a zero value for testing
+        int topN = 0;
+        String continent = "Europe"; // Define a continent for testing
+
+        // Call the method under test
+        ArrayList<Country> countries = app.displayTopPopulatedCountriesInContinent(topN, continent);
+
+        // Check if the list of countries is empty
+        assertTrue(countries.isEmpty(), "List of countries should be empty for zero input");
+    }
+
+    /**
+     * Test method to verify the behavior of displayTopPopulatedCountriesInContinent
+     * when a null continent is provided.
+     */
+    @Test
+    void testDisplayTopPopulatedCountriesInContinentNullContinent() {
+        // Define a null continent for testing
+        int topN = 5;
+        String continent = null;
+
+        // Call the method under test
+        ArrayList<Country> countries = app.displayTopPopulatedCountriesInContinent(topN, continent);
+
+        // Check if the list of countries is null
+        assertNull(countries, "List of countries should be null");
+
+    }
+
+
+    /**
+     * Test method to verify the behavior of displayTopPopulatedCountriesInContinent
+     * when an invalid continent is provided.
+     */
+    @Test
+    void testDisplayTopPopulatedCountriesInContinentInvalidContinent() {
+        // Define an invalid continent name for testing
+        int topN = 5;
+        String continent = "InvalidContinent";
+
+        // Call the method under test
+        ArrayList<Country> countries = app.displayTopPopulatedCountriesInContinent(topN, continent);
+
+        // Check if the list of countries is empty
+        assertTrue(countries.isEmpty(), "List of countries should be empty for invalid continent");
+    }
+
+    /**
+     * Test method to verify the behavior of displayTopPopulatedCountriesInContinent
+     * when correct input is provided.
+     */
+    @Test
+    void testDisplayTopPopulatedCountriesInContinentWithCorrectInput() {
+        // Define a positive value for testing
+        int topN = 10;
+        String continent = "Europe"; // Define a continent for testing
+
+        // Call the method under test
+        ArrayList<Country> countries = app.displayTopPopulatedCountriesInContinent(topN, continent);
+
+        // Check if the list of countries is not null
+        assertNotNull(countries, "List of countries should not be null");
+
+        // Check if the list of countries is not empty
+        assertFalse(countries.isEmpty(), "List of countries should not be empty");
+
+        Country lastCountry = countries.get(countries.size() - 1);
+        assertEquals("Netherlands", lastCountry.getName(),
+                "Last country should be 'Netherlands'");
+    }
 }

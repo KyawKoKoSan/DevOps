@@ -510,8 +510,17 @@ public class App
      * @param topN      The number of top populated countries to display.
      * @param continent The continent to filter countries.
      */
-    public void displayTopPopulatedCountriesInContinent(int topN, String continent) {
+    public ArrayList<Country> displayTopPopulatedCountriesInContinent(int topN, String continent) {
         try {
+            // Check if topN is non-positive
+            if (topN < 0) {
+                System.out.println("Invalid input: topN should be a positive integer.");
+                return new ArrayList<>(); // Return an empty list
+            }
+            if (continent == null) {
+                System.out.println("Continent cannot be null");
+                return null;
+            }
             // Create an SQL statement
             Statement stmt = con.createStatement();
 
@@ -554,14 +563,18 @@ public class App
                 // Add the Country object to the ArrayList
                 countries.add(country);
             }
-
-            // Print the top N populated countries in the specified continent
-            printCountries(countries);
-
+            if (countries.isEmpty()) {
+                System.out.println("No countries found for Top: " + topN+" in continent: " + continent);
+            }else {
+                // Print the top N populated countries in the specified continent
+                printCountries(countries);
+            }
+            return countries;
         } catch (Exception e) {
             // Print error messages in case of an exception
             System.out.println(e.getMessage());
             System.out.println("Failed to get top populated countries in the continent");
+            return new ArrayList<>();
         }
     }
 
