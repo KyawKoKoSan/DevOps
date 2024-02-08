@@ -566,4 +566,64 @@ public class AppIntegrationTest
                 "Last country should be 'Rangoon (Yangon)'");
     }
 
+    /**
+     * Test case for citiesByDistrict method when district is null.
+     * <p>
+     * Verifies that the method returns a null list of cities when a null district is provided.
+     */
+    @Test
+    void testCitiesByDistrictNull() {
+        // Define a null district for testing
+        String district = null;
+
+        // Call the method under test
+        ArrayList<City> cities = app.citiesByDistrict(district);
+
+        // Check if the list of cities is null
+        assertNull(cities, "List of cities should be null for null district input");
+    }
+
+    /**
+     * Test case for citiesByDistrict method when an invalid district name is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for an invalid district.
+     */
+    @Test
+    void testCitiesByDistrictInvalidDistrict() {
+        // Define an invalid district name for testing
+        String district = "InvalidDistrict";
+
+        // Call the method under test
+        ArrayList<City> cities = app.citiesByDistrict(district);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for an invalid district");
+    }
+
+    /**
+     * Test case for citiesByDistrict method when a valid district name is provided.
+     * <p>
+     * Verifies that the method returns a non-null and non-empty list of cities for a valid district.
+     * Also verifies the correctness of the first city in the list.
+     */
+    @Test
+    void testCitiesByDistrictWithCorrectInput() {
+        // Define a district for testing
+        String district = "England";
+
+        // Call the method under test
+        ArrayList<City> cities = app.citiesByDistrict(district);
+
+        // Check if the list of cities is not null
+        assertNotNull(cities, "List of cities should not be null for a valid district");
+
+        // Check if the list of cities is not empty
+        assertFalse(cities.isEmpty(), "List of cities should not be empty for a valid district");
+
+        City firstCity = cities.get(0);
+        assertEquals("London", firstCity.getName(),
+                "Last country should be London'");
+    }
+
+
 }
