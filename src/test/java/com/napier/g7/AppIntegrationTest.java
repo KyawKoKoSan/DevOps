@@ -12,6 +12,12 @@ public class AppIntegrationTest
 {
     static App app;
 
+    /**
+     * Initializes the test environment before all tests are run.
+     * This method creates an instance of the {@link App} class and establishes a connection to the MySQL database
+     * running on localhost at port 33060, with a timeout of 30 seconds.
+     * The {@link App} class should be properly configured to handle the connection to the MySQL database.
+     */
     @BeforeAll
     static void init()
     {
@@ -509,7 +515,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for citiesByCountry method when country is null.
-     * <p>
      * Verifies that the method returns a null list of cities when a null country is provided.
      */
     @Test
@@ -526,7 +531,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for citiesByCountry method when an invalid country name is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for an invalid country.
      */
     @Test
@@ -543,7 +547,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for citiesByCountry method when a valid country name is provided.
-     * <p>
      * Verifies that the method returns a non-null and non-empty list of cities for a valid country.
      * Also verifies the correctness of the first city in the list.
      */
@@ -568,7 +571,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for citiesByDistrict method when district is null.
-     * <p>
      * Verifies that the method returns a null list of cities when a null district is provided.
      */
     @Test
@@ -585,7 +587,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for citiesByDistrict method when an invalid district name is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for an invalid district.
      */
     @Test
@@ -602,7 +603,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for citiesByDistrict method when a valid district name is provided.
-     * <p>
      * Verifies that the method returns a non-null and non-empty list of cities for a valid district.
      * Also verifies the correctness of the first city in the list.
      */
@@ -627,7 +627,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInWorld method when negative input is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for negative input.
      */
     @Test
@@ -644,7 +643,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInWorld method when zero input is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for zero input.
      */
     @Test
@@ -661,7 +659,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInWorld method when a positive value is provided.
-     * <p>
      * Verifies that the method returns a non-null and non-empty list of cities for a positive input.
      * Also verifies the correctness of the first city in the list.
      */
@@ -686,7 +683,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInContinent method when negative input is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for negative input.
      */
 
@@ -705,7 +701,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInContinent method when zero input is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for zero input.
      */
     @Test
@@ -723,7 +718,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInContinent method when null continent is provided.
-     * <p>
      * Verifies that the method returns null for null continent input.
      */
     @Test
@@ -742,7 +736,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInContinent method when an invalid continent is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for an invalid continent.
      */
     @Test
@@ -760,7 +753,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInContinent method with correct input.
-     * <p>
      * Verifies that the method returns a non-null and non-empty list of cities for a valid continent.
      * Also verifies the correctness of the last city in the list.
      */
@@ -787,7 +779,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInRegion method when negative input is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for negative input.
      */
     @Test
@@ -805,7 +796,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInRegion method when zero input is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for zero input.
      */
     @Test
@@ -823,7 +813,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInRegion method when null region is provided.
-     * <p>
      * Verifies that the method returns null for null region input.
      */
 
@@ -843,7 +832,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInRegion method when an invalid region is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for an invalid region.
      */
     @Test
@@ -861,7 +849,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInRegion method with correct input.
-     * <p>
      * Verifies that the method returns a non-null and non-empty list of cities for a valid region.
      * Also verifies the correctness of the last city in the list.
      */
@@ -888,7 +875,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInCountry method when negative input is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for negative input.
      */
 
@@ -907,7 +893,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInCountry method when zero input is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for zero input.
      */
 
@@ -926,7 +911,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInCountry method when null country is provided.
-     * <p>
      * Verifies that the method returns null for null country input.
      */
 
@@ -946,7 +930,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInCountry method when an invalid country is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for an invalid country.
      */
 
@@ -965,7 +948,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInCountry method with correct input.
-     * <p>
      * Verifies that the method returns a non-null and non-empty list of cities for a valid country.
      * Also verifies the correctness of the last city in the list.
      */
@@ -992,7 +974,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInDistrict method when negative input is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for negative input.
      */
     @Test
@@ -1010,10 +991,8 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInDistrict method when zero input is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for zero input.
      */
-
     @Test
     void testDisplayTopPopulatedCitiesInDistrictZeroInput() {
         // Define a zero value for testing
@@ -1029,7 +1008,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInDistrict method when null district is provided.
-     * <p>
      * Verifies that the method returns null for null district input.
      */
     @Test
@@ -1048,7 +1026,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInDistrict method when an invalid district is provided.
-     * <p>
      * Verifies that the method returns an empty list of cities for an invalid district.
      */
     @Test
@@ -1066,7 +1043,6 @@ public class AppIntegrationTest
 
     /**
      * Test case for displayTopPopulatedCitiesInDistrict method with correct input.
-     * <p>
      * Verifies that the method returns a non-null and non-empty list of cities for a valid district.
      * Also verifies the correctness of the last city in the list.
      */

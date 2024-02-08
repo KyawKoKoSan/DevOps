@@ -12,6 +12,11 @@ public class AppTest
 {
     static App app;
 
+    /**
+     * Initializes the test environment before all tests are run.
+     * This method creates an instance of the {@link App} class, which is used for testing purposes.
+     * The {@link App} class should be properly configured to handle the requirements of the tests.
+     */
     @BeforeAll
     static void init()
     {
@@ -109,10 +114,10 @@ public class AppTest
 
         // Create a few city objects
         City city1 = new City();
-        city1.setName("Paris");
-        city1.setCountryCode("FRA");
-        city1.setDistrict("Île-de-France");
-        city1.setPopulation(2140526); // Population of Paris
+        city1.setName("Kabul");
+        city1.setCountryCode("AFG");
+        city1.setDistrict("Kabol");
+        city1.setPopulation(1780000); // Population of Paris
         cities.add(city1);
 
         // Call the method under test
