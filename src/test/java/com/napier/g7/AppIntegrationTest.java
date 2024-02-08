@@ -38,4 +38,59 @@ public class AppIntegrationTest
         assertEquals("United States Minor Outlying Islands", lastCountry.getName(),
                 "Last country should be 'United States Minor Outlying Islands'");
     }
+
+    /**
+     * Test case for retrieving countries by continent when the continent input is null.
+     */
+    @Test
+    void testCountriesByContinentNull() {
+        // Define a continent for testing
+        String continent = null;
+
+        // Call the method under test
+        ArrayList<Country> countries = app.countriesByContinent(continent);
+
+        // Check if the list of countries is null
+        assertNull(countries, "List of countries should be null");
+    }
+
+
+    /**
+     * Test case for retrieving countries by continent when the continent input is invalid.
+     */
+    @Test
+    void testCountriesByContinentEmpty() {
+        // Define a continent for testing
+        String continent = "InvalidContinent";
+
+        // Call the method under test
+        ArrayList<Country> countries = app.countriesByContinent(continent);
+
+        // Check if the list of countries is empty
+        assertTrue(countries.isEmpty(), "List of countries should be empty");
+    }
+
+    /**
+     * Test case for retrieving countries by continent with correct input.
+     */
+    @Test
+    void testCountriesByContinentWithCorrectInput() {
+        // Define a continent for testing
+        String continent = "Europe";
+
+        // Call the method under test
+        ArrayList<Country> countries = app.countriesByContinent(continent);
+
+        // Check if the list of countries is not null
+        assertNotNull(countries, "List of countries should not be null");
+
+        // Check if the list of countries is not empty
+        assertFalse(countries.isEmpty(), "List of countries should not be empty");
+
+        Country FirstCountry = countries.get(0);
+        assertEquals("Russian Federation", FirstCountry.getName(),
+                "Last country should be 'Russian Federation'");
+
+    }
+
 }

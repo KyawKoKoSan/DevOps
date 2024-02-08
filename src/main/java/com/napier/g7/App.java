@@ -288,6 +288,10 @@ public class App
      */
     public ArrayList<Country> countriesByContinent(String continent) {
         try {
+            if (continent == null) {
+                System.out.println("Continent cannot be null");
+                return null;
+            }
             // Create an SQL statement
             Statement stmt = con.createStatement();
 
@@ -328,14 +332,17 @@ public class App
                 // Add the Country object to the ArrayList
                 countries.add(country);
             }
+            // Check if any countries were found for the given continent
+            if (countries.isEmpty()) {
+                System.out.println("No countries found for continent: " + continent);
+            }
             // Return the list of countries
             return countries;
         } catch (Exception e) {
             // Print error messages in case of an exception
             System.out.println(e.getMessage());
             System.out.println("Failed to get country details by continent");
-            // Return null in case of an exception
-            return null;
+            return new ArrayList<>();
         }
     }
 
