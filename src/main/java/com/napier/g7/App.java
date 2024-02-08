@@ -95,6 +95,13 @@ public class App
         System.out.println("Number of cities: " + countCitiesByContinent+"\n");
         a.printCities(citiesByContinent);
 
+        // Get all cities in the specified region
+        ArrayList<City> citiesByRegion = a.citiesByRegion(targetRegion);
+        System.out.println("\n**********Cities in " + targetRegion + "********\n");
+        // Print the count of cities
+        int countCitiesByRegion = citiesByRegion.size();
+        System.out.println("Number of cities: " + countCitiesByRegion+"\n");
+        a.printCities(citiesByRegion);
 
         // Disconnect from database
         a.disconnect();
@@ -701,4 +708,56 @@ public class App
         }
     }
 
+    /**
+     * Retrieves all the cities in a specified region, organized by largest population to smallest.
+     *
+     * @param region The region for which cities are to be retrieved.
+     * @return An ArrayList of City objects representing cities in the specified region.
+     */
+    public ArrayList<City> citiesByRegion(String region) {
+        try {
+            if (region == null) {
+                System.out.println("Region cannot be null");
+                return null;
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT city.ID, city.Name AS cityName, country.Name AS countryName, city.District, city.Population " +
+                            "FROM city " +
+                            "JOIN country ON city.CountryCode = country.Code " +
+                            "WHERE country.Region = '" + region + "' " +
+                            "ORDER BY city.Population DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract city information
+            ArrayList<City> cities = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new City object
+                City city = new City();
+                // Set city attributes from the result set
+                city.setId(rset.getInt("ID"));
+                city.setName(rset.getString("cityName"));
+                city.setCountryCode(rset.getString("countryName"));
+                city.setDistrict(rset.getString("District"));
+                city.setPopulation(rset.getLong("Population"));
+                // Add the City object to the ArrayList
+                cities.add(city);
+            }
+            // Check if any cities were found for the given region
+            if (cities.isEmpty()) {
+                System.out.println("No cities found for region: " + region);
+            }
+            return cities;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get city details by region");
+            return new ArrayList<>();
+        }
+    }
 }
