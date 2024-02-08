@@ -127,6 +127,9 @@ public class App
         System.out.println("\n**********Top " + numberOfCities + " Cities in the World********\n");
         a.displayTopPopulatedCitiesInWorld(numberOfCities);
 
+        // Extract top N city population information on a specific continent
+        System.out.println("\n**********Top " + numberOfCities + " Cities in " + targetContinent + "********\n");
+        a.displayTopPopulatedCitiesInContinent(numberOfCities, targetContinent);
 
         // Disconnect from database
         a.disconnect();
@@ -985,4 +988,70 @@ public class App
             return new ArrayList<>();
         }
     }
+
+    /**
+     * Displays the top N populated cities in a continent based on population in descending order.
+     *
+     * @param topN      The number of top populated cities to display.
+     * @param continent The continent to filter cities.
+     * @return An ArrayList of City objects representing the top populated cities in the specified continent.
+     */
+    public ArrayList<City> displayTopPopulatedCitiesInContinent(int topN, String continent) {
+        // Check if topN is non-positive
+        if (topN < 0) {
+            System.out.println("Invalid input: topN should be a positive integer.");
+            return new ArrayList<>(); // Return an empty list
+        }
+        if (continent == null) {
+            System.out.println("Continent cannot be null");
+            return null;
+        }
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT city.ID, city.Name AS cityName, country.Name AS countryName, city.District, city.Population " +
+                            "FROM city " +
+                            "JOIN country ON city.CountryCode = country.Code " +
+                            "WHERE country.Continent = '" + continent + "' " +
+                            "ORDER BY city.Population DESC " +
+                            "LIMIT " + topN;
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract city information
+            ArrayList<City> cities = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new City object
+                City city = new City();
+                // Set city attributes from the result set
+                city.setId(rset.getInt("ID"));
+                city.setName(rset.getString("cityName"));
+                city.setCountryCode(rset.getString("countryName"));
+                city.setDistrict(rset.getString("District"));
+                city.setPopulation(rset.getLong("Population"));
+                // Add the City object to the ArrayList
+                cities.add(city);
+            }
+            // Check if any cities were found
+            if (cities.isEmpty()) {
+                System.out.println("No cities found for continent: " + continent);
+            } else {
+                // Print the top N populated cities in the continent
+                printCities(cities);
+            }
+            // Return the list of top populated cities in the specified continent
+            return cities;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get top populated cities in the continent");
+            return new ArrayList<>();
+        }
+    }
+
+
 }

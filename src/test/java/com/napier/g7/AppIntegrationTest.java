@@ -684,7 +684,105 @@ public class AppIntegrationTest
                 "Last country should be 'Mumbai (Bombay)'");
     }
 
+    /**
+     * Test case for displayTopPopulatedCitiesInContinent method when negative input is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for negative input.
+     */
 
+    @Test
+    void testDisplayTopPopulatedCitiesInContinentNegativeInput() {
+        // Define a negative value for testing
+        int topN = -5;
+        String continent = "Europe"; // Define a continent for testing
 
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInContinent(topN, continent);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for negative input");
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInContinent method when zero input is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for zero input.
+     */
+    @Test
+    void testDisplayTopPopulatedCitiesInContinentZeroInput() {
+        // Define a zero value for testing
+        int topN = 0;
+        String continent = "Europe"; // Define a continent for testing
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInContinent(topN, continent);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for zero input");
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInContinent method when null continent is provided.
+     * <p>
+     * Verifies that the method returns null for null continent input.
+     */
+    @Test
+    void testDisplayTopPopulatedCitiesInContinentNullContinent() {
+        // Define a null continent for testing
+        int topN = 5;
+        String continent = null;
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInContinent(topN, continent);
+
+        // Check if the list of cities is null
+        assertNull(cities, "List of cities should be null");
+
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInContinent method when an invalid continent is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for an invalid continent.
+     */
+    @Test
+    void testDisplayTopPopulatedCitiesInContinentInvalidContinent() {
+        // Define an invalid continent name for testing
+        int topN = 5;
+        String continent = "InvalidContinent";
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInContinent(topN, continent);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for invalid continent");
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInContinent method with correct input.
+     * <p>
+     * Verifies that the method returns a non-null and non-empty list of cities for a valid continent.
+     * Also verifies the correctness of the last city in the list.
+     */
+
+    @Test
+    void testDisplayTopPopulatedCitiesInContinentWithCorrectInput() {
+        // Define a positive value for testing
+        int topN = 10;
+        String continent = "Europe"; // Define a continent for testing
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInContinent(topN, continent);
+
+        // Check if the list of cities is not null
+        assertNotNull(cities, "List of cities should not be null");
+
+        // Check if the list of cities is not empty
+        assertFalse(cities.isEmpty(), "List of cities should not be empty");
+
+        City lastCity = cities.get(cities.size() - 1);
+        assertEquals("Budapest", lastCity.getName(),
+                "Last city should be 'Budapest'");
+    }
 
 }
