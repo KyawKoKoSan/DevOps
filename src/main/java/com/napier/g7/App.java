@@ -585,7 +585,16 @@ public class App
      * @param topN   The number of top populated countries to display.
      * @param region The region to filter countries.
      */
-    public void displayTopPopulatedCountriesInRegion(int topN, String region) {
+    public ArrayList<Country> displayTopPopulatedCountriesInRegion(int topN, String region) {
+        // Check if topN is non-positive
+        if (topN < 0) {
+            System.out.println("Invalid input: topN should be a positive integer.");
+            return new ArrayList<>(); // Return an empty list
+        }
+        if (region == null) {
+            System.out.println("Region cannot be null");
+            return null;
+        }
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -628,13 +637,17 @@ public class App
                 countries.add(country);
             }
 
-            // Print the top N populated countries in the specified region
-            printCountries(countries);
-
+            if (countries.isEmpty()) {
+                System.out.println("No countries found for Top: " + topN + " in region: " + region);
+            }else{
+                // Print the top N populated countries in the specified region
+                printCountries(countries);}
+            return countries;
         } catch (Exception e) {
             // Print error messages in case of an exception
             System.out.println(e.getMessage());
             System.out.println("Failed to get top populated countries in the region");
+            return new ArrayList<>();
         }
     }
 
