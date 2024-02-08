@@ -707,6 +707,10 @@ public class App
      */
     public ArrayList<City> citiesByContinent(String continent) {
         try {
+            if (continent == null) {
+                System.out.println("Continent cannot be null");
+                return null;
+            }
             // Create an SQL statement
             Statement stmt = con.createStatement();
 
@@ -735,12 +739,16 @@ public class App
                 // Add the City object to the ArrayList
                 cities.add(city);
             }
+            // Check if any countries were found for the given continent
+            if (cities.isEmpty()) {
+                System.out.println("No cities found for continent: " + continent);
+            }
             return cities;
         } catch (Exception e) {
             // Print error messages in case of an exception
             System.out.println(e.getMessage());
             System.out.println("Failed to get city details by continent");
-            return null;
+            return new ArrayList<>();
         }
     }
 

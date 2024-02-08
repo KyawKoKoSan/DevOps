@@ -403,4 +403,47 @@ public class AppIntegrationTest
                 "Last country should be 'Mumbai (Bombay)'");
     }
 
+    @Test
+    void testCitiesByContinentNull() {
+        // Define a null continent for testing
+        String continent = null;
+
+        // Call the method under test
+        ArrayList<City> cities = app.citiesByContinent(continent);
+
+        // Check if the list of cities is null
+        assertNull(cities, "List of cities should be null for null continent input");
+    }
+
+    @Test
+    void testCitiesByContinentInvalidContinent() {
+        // Define an invalid continent name for testing
+        String continent = "InvalidContinent";
+
+        // Call the method under test
+        ArrayList<City> cities = app.citiesByContinent(continent);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for an invalid continent");
+    }
+
+    @Test
+    void testCitiesByContinentWithCorrectInput() {
+        // Define a continent for testing
+        String continent = "Europe";
+
+        // Call the method under test
+        ArrayList<City> cities = app.citiesByContinent(continent);
+
+        // Check if the list of cities is not null
+        assertNotNull(cities, "List of cities should not be null for a valid continent");
+
+        // Check if the list of cities is not empty
+        assertFalse(cities.isEmpty(), "List of cities should not be empty for a valid continent");
+
+        City firstCity = cities.get(0);
+        assertEquals("Moscow", firstCity.getName(),
+                "Last country should be 'Moscow'");
+    }
+
 }
