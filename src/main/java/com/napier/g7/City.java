@@ -23,7 +23,7 @@ public class City {
     private String district;
 
     // Population of the city.
-    private int population;
+    private long population;
 
     /**
      * Get the city ID.
@@ -102,7 +102,7 @@ public class City {
      *
      * @return The population of the city.
      */
-    public int getPopulation() {
+    public long getPopulation() {
         return population;
     }
 
@@ -111,7 +111,7 @@ public class City {
      *
      * @param population The population to set.
      */
-    public void setPopulation(int population) {
+    public void setPopulation(long population) {
         this.population = population;
     }
 }

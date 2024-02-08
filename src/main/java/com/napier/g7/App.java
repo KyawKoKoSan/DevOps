@@ -43,7 +43,7 @@ public class App
         ArrayList<Country> countries = a.getAllCountries();
         System.out.println("\n**********Countries********\n");
         // Print the count of countries
-        int countOfCountries = countries.size()-1;
+        int countOfCountries = countries.size();
         System.out.println("Number of countries: " + countOfCountries +"\n");
         a.printCountries(countries);
 
@@ -51,7 +51,7 @@ public class App
         ArrayList<Country> countriesByContinent = a.countriesByContinent(targetContinent);
         System.out.println("\n**********Countries in " + targetContinent + "********\n");
         // Print the count of countries
-        int countCountriesByContinent = countriesByContinent.size()-1;
+        int countCountriesByContinent = countriesByContinent.size();
         System.out.println("Number of countries: " + countCountriesByContinent +"\n");
         a.printCountries(countriesByContinent);
 
@@ -59,7 +59,7 @@ public class App
         ArrayList<Country> countriesByRegion = a.countriesByRegion("Southeast Asia");
         System.out.println("\n**********Countries in " + targetRegion + "********\n");
         // Print the count of countries
-        int countCountriesByRegion = countriesByRegion.size()-1;
+        int countCountriesByRegion = countriesByRegion.size();
         System.out.println("Number of countries: " + countCountriesByRegion+"\n");
         a.printCountries(countriesByRegion);
 
@@ -69,25 +69,25 @@ public class App
 
         // Extract top N country population information on specific continent
         System.out.println("\n**********Top "+ numberOfCountries +" Countries in " + targetContinent+" ********\n");
-        a.displayTopPopulatedCountriesInContinent(10,targetContinent);
+        a.displayTopPopulatedCountriesInContinent(numberOfCountries,targetContinent);
 
         // Extract top N country population information on specific region
         System.out.println("\n**********Top "+ numberOfCountries +" Countries in " + targetRegion+" ********\n");
-        a.displayTopPopulatedCountriesInRegion(10,targetRegion);
+        a.displayTopPopulatedCountriesInRegion(numberOfCountries,targetRegion);
 
         // Extract city population information
         ArrayList<City> cities = a.getAllCities();
         System.out.println("\n**********Cities********\n");
         // Print the count of cities
-        int countOfCities = cities.size()-1;
+        int countOfCities = cities.size();
         System.out.println("Number of cities: " + countOfCities+"\n");
         a.printCities(cities);
 
         // Get all cities in the specified continent
-        ArrayList<City> citiesByContinent = a.getCitiesByContinent(targetContinent);
+        ArrayList<City> citiesByContinent = a.citiesByContinent(targetContinent);
         System.out.println("\n**********Cities in " + targetContinent + "********\n");
         // Print the count of cities
-        int countCitiesByContinent = citiesByContinent.size()-1;
+        int countCitiesByContinent = citiesByContinent.size();
         System.out.println("Number of cities: " + countCitiesByContinent+"\n");
         a.printCities(citiesByContinent);
 
@@ -180,7 +180,7 @@ public class App
             String formattedPopulation = numberFormat.format(country.getPopulation());
             String countryString = String.format("%-5s %-50s %-15s %-40s %-15s %-10s",
                     country.getCode(), country.getName(), country.getContinent(),
-                    country.getRegion(), formattedPopulation, country.getCapital());
+                    country.getRegion(), formattedPopulation, country.getCapitalName());
             System.out.println(countryString);
         }
     }
@@ -221,11 +221,12 @@ public class App
 
             // Create string for SQL statement
             String strSelect =
-                    "SELECT code, name, continent, region, surfaceArea, indepYear, " +
-                            "population, lifeExpectancy, gnp, gnpOld, localName, " +
-                            "governmentForm, headOfState, capital " +
-                            "FROM country " +
-                            "ORDER BY population DESC";
+                    "SELECT c.code, c.name, c.continent, c.region, c.surfaceArea, c.indepYear, " +
+                            "c.population, c.lifeExpectancy, c.gnp, c.gnpOld, c.localName, " +
+                            "c.governmentForm, c.headOfState, c.capital, ci.name AS capitalName " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "ORDER BY c.population DESC";
 
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
@@ -242,7 +243,7 @@ public class App
                 country.setRegion(rset.getString("region"));
                 country.setSurfaceArea(rset.getFloat("surfaceArea"));
                 country.setIndepYear(rset.getInt("indepYear"));
-                country.setPopulation(rset.getInt("population"));
+                country.setPopulation(rset.getLong("population"));
                 country.setLifeExpectancy(rset.getFloat("lifeExpectancy"));
                 country.setGnp(rset.getFloat("gnp"));
                 country.setGnpOld(rset.getFloat("gnpOld"));
@@ -250,6 +251,7 @@ public class App
                 country.setGovernmentForm(rset.getString("governmentForm"));
                 country.setHeadOfState(rset.getString("headOfState"));
                 country.setCapital(rset.getInt("capital"));
+                country.setCapitalName(rset.getString("capitalName"));
                 // Add the Country object to the ArrayList
                 countries.add(country);
             }
@@ -279,12 +281,13 @@ public class App
 
             // Create string for SQL statement
             String strSelect =
-                    "SELECT code, name, continent, region, surfaceArea, indepYear, " +
-                            "population, lifeExpectancy, gnp, gnpOld, localName, " +
-                            "governmentForm, headOfState, capital " +
-                            "FROM country " +
-                            "WHERE continent = '" + continent + "' " +
-                            "ORDER BY population DESC";
+                    "SELECT c.code, c.name, c.continent, c.region, c.surfaceArea, c.indepYear, " +
+                            "c.population, c.lifeExpectancy, c.gnp, c.gnpOld, c.localName, " +
+                            "c.governmentForm, c.headOfState, c.capital, ci.name AS capitalName " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "WHERE c.continent = '" + continent + "' " +
+                            "ORDER BY c.population DESC";
 
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
@@ -301,7 +304,7 @@ public class App
                 country.setRegion(rset.getString("region"));
                 country.setSurfaceArea(rset.getFloat("surfaceArea"));
                 country.setIndepYear(rset.getInt("indepYear"));
-                country.setPopulation(rset.getInt("population"));
+                country.setPopulation(rset.getLong("population"));
                 country.setLifeExpectancy(rset.getFloat("lifeExpectancy"));
                 country.setGnp(rset.getFloat("gnp"));
                 country.setGnpOld(rset.getFloat("gnpOld"));
@@ -309,6 +312,7 @@ public class App
                 country.setGovernmentForm(rset.getString("governmentForm"));
                 country.setHeadOfState(rset.getString("headOfState"));
                 country.setCapital(rset.getInt("capital"));
+                country.setCapitalName(rset.getString("capitalName"));
                 // Add the Country object to the ArrayList
                 countries.add(country);
             }
@@ -338,12 +342,13 @@ public class App
 
             // Create string for SQL statement
             String strSelect =
-                    "SELECT code, name, continent, region, surfaceArea, indepYear, " +
-                            "population, lifeExpectancy, gnp, gnpOld, localName, " +
-                            "governmentForm, headOfState, capital " +
-                            "FROM country " +
-                            "WHERE region = '" + region + "' " +
-                            "ORDER BY population DESC";
+                    "SELECT c.code, c.name, c.continent, c.region, c.surfaceArea, c.indepYear, " +
+                            "c.population, c.lifeExpectancy, c.gnp, c.gnpOld, c.localName, " +
+                            "c.governmentForm, c.headOfState, c.capital, ci.name AS capitalName " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "WHERE c.region = '" + region + "' " +
+                            "ORDER BY c.population DESC";
 
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
@@ -360,7 +365,7 @@ public class App
                 country.setRegion(rset.getString("region"));
                 country.setSurfaceArea(rset.getFloat("surfaceArea"));
                 country.setIndepYear(rset.getInt("indepYear"));
-                country.setPopulation(rset.getInt("population"));
+                country.setPopulation(rset.getLong("population"));
                 country.setLifeExpectancy(rset.getFloat("lifeExpectancy"));
                 country.setGnp(rset.getFloat("gnp"));
                 country.setGnpOld(rset.getFloat("gnpOld"));
@@ -368,6 +373,7 @@ public class App
                 country.setGovernmentForm(rset.getString("governmentForm"));
                 country.setHeadOfState(rset.getString("headOfState"));
                 country.setCapital(rset.getInt("capital"));
+                country.setCapitalName(rset.getString("capitalName"));
                 // Add the Country object to the ArrayList
                 countries.add(country);
             }
@@ -395,11 +401,12 @@ public class App
 
             // Create string for SQL statement
             String strSelect =
-                    "SELECT code, name, continent, region, surfaceArea, indepYear, " +
-                            "population, lifeExpectancy, gnp, gnpOld, localName, " +
-                            "governmentForm, headOfState, capital " +
-                            "FROM country " +
-                            "ORDER BY population DESC " +
+                    "SELECT c.code, c.name, c.continent, c.region, c.surfaceArea, c.indepYear, " +
+                            "c.population, c.lifeExpectancy, c.gnp, c.gnpOld, c.localName, " +
+                            "c.governmentForm, c.headOfState, c.capital, ci.name AS capitalName " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "ORDER BY c.population DESC " +
                             "LIMIT " + topN;
 
             // Execute SQL statement
@@ -417,7 +424,7 @@ public class App
                 country.setRegion(rset.getString("region"));
                 country.setSurfaceArea(rset.getFloat("surfaceArea"));
                 country.setIndepYear(rset.getInt("indepYear"));
-                country.setPopulation(rset.getInt("population"));
+                country.setPopulation(rset.getLong("population"));
                 country.setLifeExpectancy(rset.getFloat("lifeExpectancy"));
                 country.setGnp(rset.getFloat("gnp"));
                 country.setGnpOld(rset.getFloat("gnpOld"));
@@ -425,6 +432,7 @@ public class App
                 country.setGovernmentForm(rset.getString("governmentForm"));
                 country.setHeadOfState(rset.getString("headOfState"));
                 country.setCapital(rset.getInt("capital"));
+                country.setCapitalName(rset.getString("capitalName"));
                 // Add the Country object to the ArrayList
                 countries.add(country);
             }
@@ -453,13 +461,15 @@ public class App
 
             // Create string for SQL statement
             String strSelect =
-                    "SELECT code, name, continent, region, surfaceArea, indepYear, " +
-                            "population, lifeExpectancy, gnp, gnpOld, localName, " +
-                            "governmentForm, headOfState, capital " +
-                            "FROM country " +
-                            "WHERE continent = '" + continent + "' " +
-                            "ORDER BY population DESC " +
+                    "SELECT c.code, c.name, c.continent, c.region, c.surfaceArea, c.indepYear, " +
+                            "c.population, c.lifeExpectancy, c.gnp, c.gnpOld, c.localName, " +
+                            "c.governmentForm, c.headOfState, c.capital, ci.name AS capitalName " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "WHERE c.continent = '" + continent + "' " +
+                            "ORDER BY c.population DESC " +
                             "LIMIT " + topN;
+
 
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
@@ -476,7 +486,7 @@ public class App
                 country.setRegion(rset.getString("region"));
                 country.setSurfaceArea(rset.getFloat("surfaceArea"));
                 country.setIndepYear(rset.getInt("indepYear"));
-                country.setPopulation(rset.getInt("population"));
+                country.setPopulation(rset.getLong("population"));
                 country.setLifeExpectancy(rset.getFloat("lifeExpectancy"));
                 country.setGnp(rset.getFloat("gnp"));
                 country.setGnpOld(rset.getFloat("gnpOld"));
@@ -484,6 +494,7 @@ public class App
                 country.setGovernmentForm(rset.getString("governmentForm"));
                 country.setHeadOfState(rset.getString("headOfState"));
                 country.setCapital(rset.getInt("capital"));
+                country.setCapitalName(rset.getString("capitalName"));
                 // Add the Country object to the ArrayList
                 countries.add(country);
             }
@@ -512,12 +523,13 @@ public class App
 
             // Create string for SQL statement
             String strSelect =
-                    "SELECT code, name, continent, region, surfaceArea, indepYear, " +
-                            "population, lifeExpectancy, gnp, gnpOld, localName, " +
-                            "governmentForm, headOfState, capital " +
-                            "FROM country " +
-                            "WHERE region = '" + region + "' " +
-                            "ORDER BY population DESC " +
+                    "SELECT c.code, c.name, c.continent, c.region, c.surfaceArea, c.indepYear, " +
+                            "c.population, c.lifeExpectancy, c.gnp, c.gnpOld, c.localName, " +
+                            "c.governmentForm, c.headOfState, c.capital, ci.name AS capitalName " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "WHERE c.region = '" + region + "' " +
+                            "ORDER BY c.population DESC " +
                             "LIMIT " + topN;
 
             // Execute SQL statement
@@ -534,7 +546,7 @@ public class App
                 country.setRegion(rset.getString("region"));
                 country.setSurfaceArea(rset.getFloat("surfaceArea"));
                 country.setIndepYear(rset.getInt("indepYear"));
-                country.setPopulation(rset.getInt("population"));
+                country.setPopulation(rset.getLong("population"));
                 country.setLifeExpectancy(rset.getFloat("lifeExpectancy"));
                 country.setGnp(rset.getFloat("gnp"));
                 country.setGnpOld(rset.getFloat("gnpOld"));
@@ -542,6 +554,7 @@ public class App
                 country.setGovernmentForm(rset.getString("governmentForm"));
                 country.setHeadOfState(rset.getString("headOfState"));
                 country.setCapital(rset.getInt("capital"));
+                country.setCapitalName(rset.getString("capitalName"));
                 // Add the Country object to the ArrayList
                 countries.add(country);
             }
@@ -588,7 +601,7 @@ public class App
                 city.setName(rset.getString("cityName"));
                 city.setCountryCode(rset.getString("countryName"));
                 city.setDistrict(rset.getString("District"));
-                city.setPopulation(rset.getInt("Population"));
+                city.setPopulation(rset.getLong("Population"));
                 // Add the City object to the ArrayList
                 cities.add(city);
             }
@@ -610,7 +623,7 @@ public class App
      * @return An ArrayList of City objects representing cities in the specified
      *         continent, ordered by population in descending order.
      */
-    public ArrayList<City> getCitiesByContinent(String continent) {
+    public ArrayList<City> citiesByContinent(String continent) {
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -636,7 +649,7 @@ public class App
                 city.setName(rset.getString("cityName"));
                 city.setCountryCode(rset.getString("countryName"));
                 city.setDistrict(rset.getString("District"));
-                city.setPopulation(rset.getInt("Population"));
+                city.setPopulation(rset.getLong("Population"));
                 // Add the City object to the ArrayList
                 cities.add(city);
             }
