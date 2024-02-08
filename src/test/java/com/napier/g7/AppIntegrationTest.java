@@ -403,6 +403,9 @@ public class AppIntegrationTest
                 "Last country should be 'Mumbai (Bombay)'");
     }
 
+    /**
+     * Test method to verify the behavior of citiesByContinent when a null continent is provided.
+     */
     @Test
     void testCitiesByContinentNull() {
         // Define a null continent for testing
@@ -415,6 +418,9 @@ public class AppIntegrationTest
         assertNull(cities, "List of cities should be null for null continent input");
     }
 
+    /**
+     * Test method to verify the behavior of citiesByContinent when an invalid continent is provided.
+     */
     @Test
     void testCitiesByContinentInvalidContinent() {
         // Define an invalid continent name for testing
@@ -427,6 +433,9 @@ public class AppIntegrationTest
         assertTrue(cities.isEmpty(), "List of cities should be empty for an invalid continent");
     }
 
+    /**
+     * Test method to verify the behavior of citiesByContinent when correct input is provided.
+     */
     @Test
     void testCitiesByContinentWithCorrectInput() {
         // Define a continent for testing
@@ -444,6 +453,58 @@ public class AppIntegrationTest
         City firstCity = cities.get(0);
         assertEquals("Moscow", firstCity.getName(),
                 "Last country should be 'Moscow'");
+    }
+
+    /**
+     * Test method to verify the behavior of citiesByRegion when a null region is provided.
+     */
+    @Test
+    void testCitiesByRegionNull() {
+        // Define a null region for testing
+        String region = null;
+
+        // Call the method under test
+        ArrayList<City> cities = app.citiesByRegion(region);
+
+        // Check if the list of cities is null
+        assertNull(cities, "List of cities should be null for null region input");
+    }
+
+    /**
+     * Test method to verify the behavior of citiesByRegion when an invalid region is provided.
+     */
+    @Test
+    void testCitiesByRegionInvalidRegion() {
+        // Define an invalid region name for testing
+        String region = "InvalidRegion";
+
+        // Call the method under test
+        ArrayList<City> cities = app.citiesByRegion(region);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for an invalid region");
+    }
+
+    /**
+     * Test method to verify the behavior of citiesByRegion when correct input is provided.
+     */
+    @Test
+    void testCitiesByRegionWithCorrectInput() {
+        // Define a region for testing
+        String region = "Southeast Asia";
+
+        // Call the method under test
+        ArrayList<City> cities = app.citiesByRegion(region);
+
+        // Check if the list of cities is not null
+        assertNotNull(cities, "List of cities should not be null for a valid region");
+
+        // Check if the list of cities is not empty
+        assertFalse(cities.isEmpty(), "List of cities should not be empty for a valid region");
+
+        City firstCity = cities.get(0);
+        assertEquals("Jakarta", firstCity.getName(),
+                "Last country should be 'Jakarta'");
     }
 
 }
