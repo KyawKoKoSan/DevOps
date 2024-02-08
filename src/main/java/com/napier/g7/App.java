@@ -692,7 +692,7 @@ public class App
             // Print error messages in case of an exception
             System.out.println(e.getMessage());
             System.out.println("Failed to get city details");
-            return null;
+            return new ArrayList<>();
         }
     }
 

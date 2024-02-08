@@ -383,4 +383,24 @@ public class AppIntegrationTest
                 "Last country should be 'East Timor'");
     }
 
+    /**
+     * Test method to verify the behavior of getAllCities.
+     * Retrieves all cities and performs basic validation.
+     */
+    @Test
+    void testGetAllCities() {
+        // Call the method under test
+        ArrayList<City> cities = app.getAllCities();
+
+        // Check if the list of cities is not null
+        assertNotNull(cities, "List of cities should not be null");
+
+        // Check if the list of cities is not empty
+        assertFalse(cities.isEmpty(), "List of cities should not be empty");
+
+        City firstCity = cities.get(0);
+        assertEquals("Mumbai (Bombay)", firstCity.getName(),
+                "Last country should be 'Mumbai (Bombay)'");
+    }
+
 }
