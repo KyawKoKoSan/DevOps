@@ -507,4 +507,63 @@ public class AppIntegrationTest
                 "Last country should be 'Jakarta'");
     }
 
+    /**
+     * Test case for citiesByCountry method when country is null.
+     * <p>
+     * Verifies that the method returns a null list of cities when a null country is provided.
+     */
+    @Test
+    void testCitiesByCountryNull() {
+        // Define a null country for testing
+        String country = null;
+
+        // Call the method under test
+        ArrayList<City> cities = app.citiesByCountry(country);
+
+        // Check if the list of cities is null
+        assertNull(cities, "List of cities should be null for null country input");
+    }
+
+    /**
+     * Test case for citiesByCountry method when an invalid country name is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for an invalid country.
+     */
+    @Test
+    void testCitiesByCountryInvalidCountry() {
+        // Define an invalid country name for testing
+        String country = "InvalidCountry";
+
+        // Call the method under test
+        ArrayList<City> cities = app.citiesByCountry(country);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for an invalid country");
+    }
+
+    /**
+     * Test case for citiesByCountry method when a valid country name is provided.
+     * <p>
+     * Verifies that the method returns a non-null and non-empty list of cities for a valid country.
+     * Also verifies the correctness of the first city in the list.
+     */
+    @Test
+    void testCitiesByCountryWithCorrectInput() {
+        // Define a country for testing
+        String country = "Myanmar";
+
+        // Call the method under test
+        ArrayList<City> cities = app.citiesByCountry(country);
+
+        // Check if the list of cities is not null
+        assertNotNull(cities, "List of cities should not be null for a valid country");
+
+        // Check if the list of cities is not empty
+        assertFalse(cities.isEmpty(), "List of cities should not be empty for a valid country");
+
+        City firstCity = cities.get(0);
+        assertEquals("Rangoon (Yangon)", firstCity.getName(),
+                "Last country should be 'Rangoon (Yangon)'");
+    }
+
 }
