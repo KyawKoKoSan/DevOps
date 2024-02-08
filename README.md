@@ -1,18 +1,22 @@
-**DevOps** Group Project By **G7**
+## **DevOps Group Project By G7**
 
-**Code Review 2**
+**Code Review 3**
 
 ## Overview
 
-This is a Java application that connects to a MySQL database containing world data. Developed by Htoo Myat Linn, Kyaw Ko Ko San, Bhone Myat, Wai Yan Moe, Zayar Phyo, and Pyae Sone, this application demonstrates essential database interactions and queries. It provides functionalities to retrieve and display information about countries and cities, filter data by continent and region, and showcase top-populated countries.
+This is a Java application that connects to a MySQL database containing world data. Developed by Htoo Myat Linn, Kyaw Ko Ko San, Bhone Myat, Wai Yan Moe, Zayar Phyo, and Pyae Sone, this application demonstrates essential database interactions and queries. It provides functionalities to retrieve and display information about countries and cities, filter data by continent, country, district and region, and showcase top-populated countries.
 
 
 ## Features
 
 - Connects to a MySQL database to retrieve country and city information.
 - Displays detailed information about countries, including population, surface area, and more.
-- Filters countries and cities by continent and region.
-- Identifies top-populated countries globally, by continent, and by region.
+- Filters countries and cities by continent, country, district and region.
+- Identifies top-populated countries and cities globally, by continent, country, district and by region.
+
+## Integration Test Coverage
+
+This project emphasizes integration test coverage to ensure the reliability and correctness of key functionalities. Various scenarios including positive, negative, zero, and null inputs have been tested to enhance the reliability of the application. Additionally, invalid input scenarios have been included to handle unexpected situations. This update lays a foundation for further development and ensures the stability of the application.
 
 ## Usage
 
@@ -36,9 +40,7 @@ This is a Java application that connects to a MySQL database containing world da
 
 ## Version
 
-Current version: 0.1.1-alpha-3 (Released on 2024-02-01)
-
-# Software Engineering Methods
+Current version: 0.1-alpha-4 (Released on 2024-02-08)
 
 - Master Build Status ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/AdamCold/group7/main.yml?branch=master)
 
