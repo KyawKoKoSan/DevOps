@@ -625,5 +625,66 @@ public class AppIntegrationTest
                 "Last country should be London'");
     }
 
+    /**
+     * Test case for displayTopPopulatedCitiesInWorld method when negative input is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for negative input.
+     */
+    @Test
+    void testDisplayTopPopulatedCitiesInWorldNegativeInput() {
+        // Define a negative value for testing
+        int topN = -5;
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInWorld(topN);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for negative input");
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInWorld method when zero input is provided.
+     * <p>
+     * Verifies that the method returns an empty list of cities for zero input.
+     */
+    @Test
+    void testDisplayTopPopulatedCitiesInWorldZeroInput() {
+        // Define a zero value for testing
+        int topN = 0;
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInWorld(topN);
+
+        // Check if the list of cities is empty
+        assertTrue(cities.isEmpty(), "List of cities should be empty for zero input");
+    }
+
+    /**
+     * Test case for displayTopPopulatedCitiesInWorld method when a positive value is provided.
+     * <p>
+     * Verifies that the method returns a non-null and non-empty list of cities for a positive input.
+     * Also verifies the correctness of the first city in the list.
+     */
+    @Test
+    void testDisplayTopPopulatedCitiesInWorldWithCorrectInput() {
+        // Define a positive value for testing
+        int topN = 10;
+
+        // Call the method under test
+        ArrayList<City> cities = app.displayTopPopulatedCitiesInWorld(topN);
+
+        // Check if the list of cities is not null
+        assertNotNull(cities, "List of cities should not be null");
+
+        // Check if the list of cities is not empty
+        assertFalse(cities.isEmpty(), "List of cities should not be empty");
+
+        City firstCity = cities.get(0);
+        assertEquals("Mumbai (Bombay)", firstCity.getName(),
+                "Last country should be 'Mumbai (Bombay)'");
+    }
+
+
+
 
 }
