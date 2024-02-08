@@ -93,4 +93,55 @@ public class AppIntegrationTest
 
     }
 
+    /**
+     * Test case for retrieving countries by region when the region input is null.
+     */
+    @Test
+    void testCountriesByRegionNull() {
+        // Define a region for testing
+        String region = null;
+
+        // Call the method under test
+        ArrayList<Country> countries = app.countriesByRegion(region);
+
+        // Check if the list of countries is null
+        assertNull(countries, "List of countries should be null");
+    }
+
+    /**
+     * Test case for retrieving countries by region when the region input is invalid.
+     */
+    @Test
+    void testCountriesByRegionEmpty() {
+        // Define a region for testing
+        String region = "InvalidRegion";
+
+        // Call the method under test
+        ArrayList<Country> countries = app.countriesByRegion(region);
+
+        // Check if the list of countries is empty
+        assertTrue(countries.isEmpty(), "List of countries should be empty");
+    }
+
+    /**
+     * Test case for retrieving countries by region with correct input.
+     */
+    @Test
+    void testCountriesByRegionWithCorrectInput() {
+        // Define a region for testing
+        String region = "Southeast Asia";
+
+        // Call the method under test
+        ArrayList<Country> countries = app.countriesByRegion(region);
+
+        // Check if the list of countries is not null
+        assertNotNull(countries, "List of countries should not be null");
+
+        // Check if the list of countries is not empty
+        assertFalse(countries.isEmpty(), "List of countries should not be empty");
+
+        Country lastCountry = countries.get(countries.size() - 1);
+        assertEquals("Brunei", lastCountry.getName(),
+                "Last country should be 'Brunei'");
+    }
 }
