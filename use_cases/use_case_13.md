@@ -37,7 +37,7 @@ Failed End Condition
 ==============================================================================
 
 
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process and the system will shows "Failed to get top populated cities in the continent" message.
 
 Primary Actor
 ==============================================================================
