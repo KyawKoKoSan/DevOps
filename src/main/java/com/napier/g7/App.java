@@ -169,12 +169,20 @@ public class App
      * @param countries The list of Country objects to print.
      */
     public void printCountries(ArrayList<Country> countries) {
+        // Check employees is not null
+        if (countries == null)
+        {
+            System.out.println("No Countries");
+            return;
+        }
         // Print header
         System.out.println(String.format("%-5s %-50s %-15s %-40s %-15s %-10s",
                 "Code", "Name", "Continent", "Region", "Population", "Capital"));
 
         // Loop over all countries in the list
         for (Country country : countries) {
+            if(country == null)
+                continue;
             // Format population with commas
             NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
             String formattedPopulation = numberFormat.format(country.getPopulation());
