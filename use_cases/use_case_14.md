@@ -2,6 +2,7 @@ Use case: 14 Retrieve the top ten populated cities in a region.
 ==============================================================================
 
 CHARACTERISTIC INFORMATION
+===================================
 
 
 Goal in Context
