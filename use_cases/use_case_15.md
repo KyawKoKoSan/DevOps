@@ -2,6 +2,7 @@ Use case: 15 Retrieve the top ten populated cities in a country .
 ==============================================================================
 
 CHARACTERISTIC INFORMATION
+==
 
 
 Goal in Context
