@@ -3,6 +3,7 @@ Use case: 13 Retrieve the top ten populated cities in a continent .
 ==============================================================================
 
 CHARACTERISTIC INFORMATION
+==
 
 
 Goal in Context
