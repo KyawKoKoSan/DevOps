@@ -35,8 +35,8 @@ This project emphasizes integration test coverage to ensure the reliability and 
 [![Kyaw Ko Ko San](https://img.shields.io/badge/-Kyaw_Ko_Ko_San-00cc00.svg)](https://github.com/KyawKoKoSan)
 [![Bhone Myat](https://img.shields.io/badge/-Bhone_Myat-00cc00.svg)](https://github.com/bhonemyat88)
 [![Wai Yan Moe](https://img.shields.io/badge/-Wai_Yan_Moe-00cc00.svg)](https://github.com/WaiYanMoe-Devop)
-- Zayar Phyo
-- Pyae Sone
+[![Pyae Sone](https://img.shields.io/badge/-Pyae_Sone-00cc00.svg)](https://github.com/SonePyae)
+[![Zayar Phyo](https://img.shields.io/badge/-Zayar_Phyo-00cc00.svg)](https://github.com/zayarphyo18)
   
 ## Version
 
