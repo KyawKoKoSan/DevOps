@@ -33,6 +33,7 @@ Success End Condition
 
 
 A list of all capital cities around the world, organized by population from the largest to the smallest, is provided to the analyst.
+
 Failed End Condition
 ==============================================================================
 
