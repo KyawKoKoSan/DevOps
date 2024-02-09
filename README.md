@@ -31,13 +31,13 @@ This project emphasizes integration test coverage to ensure the reliability and 
 
 ## Contributors
 
-- Htoo Myat Linn
-- Kyaw Ko Ko San
+[![Htoo Myat Linn](https://img.shields.io/badge/-Htoo_Myat_Linn-00cc00.svg)](https://github.com/AdamCold)
+[![Kyaw Ko Ko San](https://img.shields.io/badge/-Kyaw_Ko_Ko_San-00cc00.svg)](https://github.com/KyawKoKoSan)
 - Bhone Myat
 - Wai Yan Moe
 - Zayar Phyo
 - Pyae Sone
-
+  
 ## Version
 
 Current version: 0.1-alpha-4 (Released on 2024-02-08)
