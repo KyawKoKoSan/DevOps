@@ -13,22 +13,22 @@ As a analyst, I aim to obtain a list of the top ten most populated capital citie
 Scope
 ==============================================================================
 
-
 Organizational black box
 
 Level
 ==============================================================================
-
 Primary task
+
 Preconditions
 ==============================================================================
 
-
 The system has access to a database containing population data for capital cities of the continent.
+
 Success End Condition
 ==============================================================================
 
 A list of the top ten populated capital cities of the continent,  is provided to the analyst.
+
 Failed End Condition
 ==============================================================================
 
@@ -37,7 +37,6 @@ No list is generated, or an error occurs during the retrieval process.
 
 Primary Actor
 ==============================================================================
-
 
  Analyst
 
