@@ -3,6 +3,7 @@ Use case: 12 Retrieve the top ten populated cities in the world .
 ==============================================================================
 
 CHARACTERISTIC INFORMATION
+====
 
 
 Goal in Context
