@@ -1724,5 +1724,56 @@ public class AppIntegrationTest
                 "Population should meet exception'");
     }
 
+    /**
+     * Test case to verify the behavior of displayCityPopulation when a null city name is provided.
+     */
+    @Test
+    void testDisplayCityPopulationNullCityName() {
+        // Define a null city name for testing
+        String cityName = null;
+
+        // Call the method under test
+        long population = app.displayCityPopulation(cityName);
+
+        // Check if population is 0
+        assertEquals(0, population, "Population should be 0 for null city name input");
+    }
+
+    /**
+     * Test case to verify the behavior of displayCityPopulation when an invalid city name is provided.
+     */
+    @Test
+    void testDisplayCityPopulationInvalidCityName() {
+        // Define an invalid city name for testing
+        String cityName = "InvalidCity";
+
+        // Call the method under test
+        long population = app.displayCityPopulation(cityName);
+
+        // Check if population is 0
+        assertEquals(0, population, "Population should be 0 for an invalid city name");
+    }
+
+    /**
+     * Test case to verify the behavior of displayCityPopulation when correct input is provided.
+     */
+    @Test
+    void testDisplayCityPopulationWithCorrectInput() {
+        // Define a city name for testing
+        String cityName = "Rangoon (Yangon)";
+
+        // Call the method under test
+        long population = app.displayCityPopulation(cityName);
+
+        // Check if population is greater than or equal to 0
+        assertTrue(population >= 0, "Population should be non-negative for a valid city name");
+
+        // Check if population is greater than 0
+        assertTrue(population > 0, "Population should be greater than 0 for a valid city name");
+
+        assertEquals(3361700L, population,
+                "Population should meet exception'");
+    }
+
 
 }
