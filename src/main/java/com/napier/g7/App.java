@@ -43,6 +43,7 @@ public class App
         String targetDistrict = "England"; // Replace "England" with the desired District
         int numberOfCountries = 10; // Replace "10" with the desired number
         int numberOfCities = 10; // Replace "10" with the desired number
+        int numberOfCapitals = 10; // Replace "10" with the desired number
 
 
 
@@ -142,6 +143,43 @@ public class App
         // Extract top N city population information in a specific district
         System.out.println("\n**********Top " + numberOfCities + " Cities in " + targetDistrict + "********\n");
         a.displayTopPopulatedCitiesInDistrict(numberOfCities, targetDistrict);
+
+        // Call the method and print the details
+        ArrayList<Capital> capitalCities = a.getAllCapitalCities();
+        System.out.println("\n**********Capital Cities********\n");
+        // Print the count of capital cities
+        int countOfCapitals = capitalCities.size();
+        System.out.println("Number of capital cities: " + countOfCapitals + "\n");
+        a.printCapitalCities(capitalCities);
+
+        // Get all capital cities in the specified continent
+        ArrayList<Capital> capitalsByContinent = a.capitalCitiesByContinent(targetContinent);
+        System.out.println("\n**********Capital Cities in " + targetContinent + "********\n");
+        // Print the count of capital cities
+        int countCapitalsByContinent = capitalsByContinent.size();
+        System.out.println("Number of capital cities: " + countCapitalsByContinent + "\n");
+        a.printCapitalCities(capitalsByContinent);
+
+
+        // Get all capital cities in the specified region
+        ArrayList<Capital> capitalsByRegion = a.capitalCitiesByRegion(targetRegion);
+        System.out.println("\n**********Capital Cities in " + targetRegion + "********\n");
+        // Print the count of capital cities
+        int countCapitalsByRegion = capitalsByRegion.size();
+        System.out.println("Number of capital cities: " + countCapitalsByRegion + "\n");
+        a.printCapitalCities(capitalsByRegion);
+
+        // Extract top N capital city population information in the world
+        System.out.println("\n**********Top " + numberOfCapitals + " Capital Cities in the World********\n");
+        a.displayTopPopulatedCapitalCitiesInWorld(numberOfCapitals);
+
+        // Extract top N capital city population information on a specific continent
+        System.out.println("\n**********Top " + numberOfCapitals + " Capital Cities in " + targetContinent + "********\n");
+        a.displayTopPopulatedCapitalCitiesInContinent(numberOfCapitals, targetContinent);
+
+        // Extract top N capital city population information in a specific region
+        System.out.println("\n**********Top " + numberOfCapitals + " Capital Cities in " + targetRegion + "********\n");
+        a.displayTopPopulatedCapitalCitiesInRegion(numberOfCapitals, targetRegion);
 
         // Disconnect from database
         a.disconnect();
@@ -260,6 +298,35 @@ public class App
             String cityString = String.format("%-40s %-40s %-30s %-15s",
                     city.getName(), city.getCountryCode(), city.getDistrict(), formattedPopulation);
             System.out.println(cityString);
+        }
+    }
+
+    /**
+     * Prints the details of a list of capital cities in a formatted table.
+     *
+     * @param capitals The list of Capital objects to print.
+     */
+    public void printCapitalCities(ArrayList<Capital> capitals) {
+        // Check if capitals is not null
+        if (capitals == null || capitals.isEmpty()) {
+            System.out.println("No capital cities");
+            return;
+        }
+
+        // Print header
+        System.out.println(String.format("%-15s %-35s %-45s %-15s",
+                "ID", "Name", "Country Name", "Population"));
+
+        // Loop over all capital cities in the list
+        for (Capital capital : capitals) {
+            if (capital == null)
+                continue;
+            // Format population with commas
+            NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+            String formattedPopulation = numberFormat.format(capital.getPopulation());
+            String capitalString = String.format("%-15s %-35s %-45s %-15s",
+                    capital.getId(), capital.getName(), capital.getCountryName(), formattedPopulation);
+            System.out.println(capitalString);
         }
     }
 
@@ -1253,6 +1320,346 @@ public class App
             // Print error messages in case of an exception
             System.out.println(e.getMessage());
             System.out.println("Failed to get top populated cities in the district");
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Retrieves all the capital cities in the world organized by the largest population to smallest.
+     *
+     * @return An ArrayList of Capital objects representing the capital cities.
+     *         Returns empty array list in case of an exception or failure.
+     * @throws SQLException If a database access error occurs.
+     */
+    public ArrayList<Capital> getAllCapitalCities() {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT ci.ID, ci.name AS cityName, c.name AS countryName, ci.population " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "ORDER BY ci.population DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract capital city information
+            ArrayList<Capital> capitals = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new Capital object
+                Capital capital = new Capital();
+                // Set capital attributes from the result set
+                capital.setId(rset.getInt("ID"));
+                capital.setName(rset.getString("cityName"));
+                capital.setCountryName(rset.getString("countryName"));
+                capital.setPopulation(rset.getLong("population"));
+                // Add the Capital object to the ArrayList
+                capitals.add(capital);
+            }
+            // Check if any capitals were found
+            if (capitals.isEmpty()) {
+                System.out.println("No capital cities found");
+            }
+            // Return the list of capital cities
+            return capitals;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get capital city details");
+            // Return an empty list in case of an exception
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Retrieves a list of capital cities based on the specified continent, ordered by
+     * population in descending order.
+     *
+     * @param continent The continent to filter capital cities.
+     * @return An ArrayList of Capital objects representing capital cities in the specified
+     *         continent, ordered by population in descending order.
+     */
+    public ArrayList<Capital> capitalCitiesByContinent(String continent) {
+        try {
+            if (continent == null) {
+                System.out.println("Continent cannot be null");
+                return null;
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT ci.ID, ci.name AS cityName, c.name AS countryName, ci.population " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "WHERE c.continent = '" + continent + "' " +
+                            "ORDER BY ci.population DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract capital city information
+            ArrayList<Capital> capitals = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new Capital object
+                Capital capital = new Capital();
+                // Set capital attributes from the result set
+                capital.setId(rset.getInt("ID"));
+                capital.setName(rset.getString("cityName"));
+                capital.setCountryName(rset.getString("countryName"));
+                capital.setPopulation(rset.getLong("population"));
+                // Add the Capital object to the ArrayList
+                capitals.add(capital);
+            }
+            // Check if any capital cities were found for the given continent
+            if (capitals.isEmpty()) {
+                System.out.println("No capital cities found for continent: " + continent);
+            }
+            // Return the list of capital cities
+            return capitals;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get capital city details by continent");
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Retrieves a list of capital cities based on the specified region, ordered by
+     * population in descending order.
+     *
+     * @param region The region to filter capital cities.
+     * @return An ArrayList of Capital objects representing capital cities in the specified
+     *         region, ordered by population in descending order.
+     */
+    public ArrayList<Capital> capitalCitiesByRegion(String region) {
+        try {
+            if (region == null) {
+                System.out.println("Region cannot be null");
+                return null;
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT ci.ID, ci.name AS cityName, c.name AS countryName, ci.population " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "WHERE c.region = '" + region + "' " +
+                            "ORDER BY ci.population DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract capital city information
+            ArrayList<Capital> capitals = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new Capital object
+                Capital capital = new Capital();
+                // Set capital attributes from the result set
+                capital.setId(rset.getInt("ID"));
+                capital.setName(rset.getString("cityName"));
+                capital.setCountryName(rset.getString("countryName"));
+                capital.setPopulation(rset.getLong("population"));
+                // Add the Capital object to the ArrayList
+                capitals.add(capital);
+            }
+            // Check if any capital cities were found for the given region
+            if (capitals.isEmpty()) {
+                System.out.println("No capital cities found for region: " + region);
+            }
+            // Return the list of capital cities
+            return capitals;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get capital city details by region");
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Displays the top N populated capital cities in the world based on population in descending order.
+     *
+     * @param topN The number of top populated capital cities to display.
+     */
+    public ArrayList<Capital> displayTopPopulatedCapitalCitiesInWorld(int topN) {
+        // Check if topN is non-positive
+        if (topN < 0) {
+            System.out.println("Invalid input: topN should be a positive integer.");
+            return new ArrayList<>();
+        }
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT ci.ID, ci.name AS cityName, c.name AS countryName, ci.population " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "ORDER BY ci.population DESC " +
+                            "LIMIT " + topN;
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract capital city information
+            ArrayList<Capital> capitals = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new Capital object
+                Capital capital = new Capital();
+                // Set capital attributes from the result set
+                capital.setId(rset.getInt("ID"));
+                capital.setName(rset.getString("cityName"));
+                capital.setCountryName(rset.getString("countryName"));
+                capital.setPopulation(rset.getLong("population"));
+                // Add the Capital object to the ArrayList
+                capitals.add(capital);
+            }
+
+            // Check if any capital cities were found
+            if (capitals.isEmpty()) {
+                System.out.println("No capital cities found");
+            } else {
+                // Print the top N populated capital cities in the world
+                printCapitalCities(capitals);
+            }
+            return capitals;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get top populated capital cities in the world");
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Displays the top N populated capital cities in a continent based on population in descending order.
+     *
+     * @param topN      The number of top populated capital cities to display.
+     * @param continent The continent to filter capital cities.
+     */
+    public ArrayList<Capital> displayTopPopulatedCapitalCitiesInContinent(int topN, String continent) {
+        // Check if topN is non-positive
+        if (topN < 0) {
+            System.out.println("Invalid input: topN should be a positive integer.");
+            return new ArrayList<>();
+        }
+        try {
+            if (continent == null) {
+                System.out.println("Continent cannot be null");
+                return null;
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT ci.ID, ci.name AS cityName, c.name AS countryName, ci.population " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "WHERE c.continent = '" + continent + "' " +
+                            "ORDER BY ci.population DESC " +
+                            "LIMIT " + topN;
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract capital city information
+            ArrayList<Capital> capitals = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new Capital object
+                Capital capital = new Capital();
+                // Set capital attributes from the result set
+                capital.setId(rset.getInt("ID"));
+                capital.setName(rset.getString("cityName"));
+                capital.setCountryName(rset.getString("countryName"));
+                capital.setPopulation(rset.getLong("population"));
+                // Add the Capital object to the ArrayList
+                capitals.add(capital);
+            }
+
+            // Check if any capital cities were found for the given continent
+            if (capitals.isEmpty()) {
+                System.out.println("No capital cities found for Top: " + topN + " in continent: " + continent);
+            } else {
+                // Print the top N populated capital cities in the continent
+                printCapitalCities(capitals);
+            }
+            return capitals;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get top populated capital cities in the continent");
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Displays the top N populated capital cities in a region based on population in descending order.
+     *
+     * @param topN   The number of top populated capital cities to display.
+     * @param region The region to filter capital cities.
+     */
+    public ArrayList<Capital> displayTopPopulatedCapitalCitiesInRegion(int topN, String region) {
+        // Check if topN is non-positive
+        if (topN < 0) {
+            System.out.println("Invalid input: topN should be a positive integer.");
+            return new ArrayList<>();
+        }
+        try {
+            if (region == null) {
+                System.out.println("Region cannot be null");
+                return null;
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT ci.ID, ci.name AS cityName, c.name AS countryName, ci.population " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "WHERE c.region = '" + region + "' " +
+                            "ORDER BY ci.population DESC " +
+                            "LIMIT " + topN;
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract capital city information
+            ArrayList<Capital> capitals = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new Capital object
+                Capital capital = new Capital();
+                // Set capital attributes from the result set
+                capital.setId(rset.getInt("ID"));
+                capital.setName(rset.getString("cityName"));
+                capital.setCountryName(rset.getString("countryName"));
+                capital.setPopulation(rset.getLong("population"));
+                // Add the Capital object to the ArrayList
+                capitals.add(capital);
+            }
+
+            // Check if any capital cities were found for the given region
+            if (capitals.isEmpty()) {
+                System.out.println("No capital cities found for region: " + region);
+            } else {
+                // Print the top N populated capital cities in the region
+                printCapitalCities(capitals);
+            }
+            return capitals;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get top populated capital cities in the region");
             return new ArrayList<>();
         }
     }

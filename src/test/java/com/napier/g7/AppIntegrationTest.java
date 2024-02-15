@@ -1065,4 +1065,276 @@ public class AppIntegrationTest
         assertEquals("Bradford", lastCity.getName(),
                 "Last city should be 'Bradford'");
     }
+    /**
+     * Test method for {@link App#getAllCapitalCities()}.
+     */
+    @Test
+    void testGetAllCapitalCities() {
+        // Call the method under test
+        ArrayList<Capital> capitals = app.getAllCapitalCities();
+
+        // Check if the list of capitals is not null
+        assertNotNull(capitals, "List of capital cities should not be null");
+
+        // Check if the list of capitals is not empty
+        assertFalse(capitals.isEmpty(), "List of capital cities should not be empty");
+
+        Capital lastCapital = capitals.get(0);
+        assertEquals("Seoul", lastCapital.getName(),
+                "Last city should be 'Seoul'");
+    }
+    /**
+     * This method tests the behavior of the {@code capitalCitiesByContinent} method
+     * when provided with a null continent input.
+     */
+    @Test
+    void testCapitalCitiesByContinentNull() {
+        // Define a null continent for testing
+        String continent = null;
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.capitalCitiesByContinent(continent);
+
+        // Check if the list of capitals is null
+        assertNull(capitals, "List of capitals should be null for null continent input");
+    }
+
+    /**
+     * This method tests the behavior of the {@code capitalCitiesByContinent} method
+     * when provided with an invalid continent input.
+     */
+    @Test
+    void testCapitalCitiesByContinentInvalidContinent() {
+        // Define an invalid continent name for testing
+        String continent = "InvalidContinent";
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.capitalCitiesByContinent(continent);
+
+        // Check if the list of capitals is empty
+        assertTrue(capitals.isEmpty(), "List of capitals should be empty for an invalid continent");
+    }
+
+    /**
+     * This method tests the behavior of the {@code capitalCitiesByContinent} method
+     * when provided with a correct continent input.
+     */
+    @Test
+    void testCapitalCitiesByContinentWithCorrectInput() {
+        // Define a continent for testing
+        String continent = "Europe";
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.capitalCitiesByContinent(continent);
+
+        // Check if the list of capitals is not null
+        assertNotNull(capitals, "List of capitals should not be null for a valid continent");
+
+        // Check if the list of capitals is not empty
+        assertFalse(capitals.isEmpty(), "List of capitals should not be empty for a valid continent");
+        Capital firstCapital = capitals.get(0);
+        assertEquals("Moscow", firstCapital.getName(),
+                "Last country should be 'Moscow'");
+
+    }
+    /**
+     * This method tests the behavior of the {@code capitalCitiesByRegion} method
+     * when provided with a null region input.
+     */
+    @Test
+    void testCapitalCitiesByRegionNull() {
+        // Define a null region for testing
+        String region = null;
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.capitalCitiesByRegion(region);
+
+        // Check if the list of capitals is null
+        assertNull(capitals, "List of capitals should be null for null region input");
+    }
+
+    /**
+     * This method tests the behavior of the {@code capitalCitiesByRegion} method
+     * when provided with an invalid region input.
+     */
+    @Test
+    void testCapitalCitiesByRegionInvalidRegion() {
+        // Define an invalid region name for testing
+        String region = "InvalidRegion";
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.capitalCitiesByRegion(region);
+
+        // Check if the list of capitals is empty
+        assertTrue(capitals.isEmpty(), "List of capitals should be empty for an invalid region");
+    }
+
+    /**
+     * This method tests the behavior of the {@code capitalCitiesByRegion} method
+     * when provided with a correct region input.
+     */
+    @Test
+    void testCapitalCitiesByRegionWithCorrectInput() {
+        // Define a region for testing
+        String region = "Southeast Asia";
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.capitalCitiesByRegion(region);
+
+        // Check if the list of capitals is not null
+        assertNotNull(capitals, "List of capitals should not be null for a valid region");
+
+        // Check if the list of capitals is not empty
+        assertFalse(capitals.isEmpty(), "List of capitals should not be empty for a valid continent");
+        Capital firstCapital = capitals.get(0);
+        assertEquals("Jakarta", firstCapital.getName(),
+                "Last country should be 'Jakarta'");
+    }
+    /**
+     * This method tests the behavior of the {@code displayTopPopulatedCapitalCitiesInWorld} method
+     * when provided with a negative input for the number of cities.
+     */
+    @Test
+    void testDisplayTopPopulatedCapitalCitiesInWorldNegativeInput() {
+        // Define a negative value for testing
+        int topN = -5;
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.displayTopPopulatedCapitalCitiesInWorld(topN);
+
+        // Check if the list of capitals is empty
+        assertTrue(capitals.isEmpty(), "List of capitals should be empty for negative input");
+    }
+
+    /**
+     * This method tests the behavior of the {@code displayTopPopulatedCapitalCitiesInWorld} method
+     * when provided with a zero input for the number of cities.
+     */
+    @Test
+    void testDisplayTopPopulatedCapitalCitiesInWorldZeroInput() {
+        // Define a zero value for testing
+        int topN = 0;
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.displayTopPopulatedCapitalCitiesInWorld(topN);
+
+        // Check if the list of capitals is empty
+        assertTrue(capitals.isEmpty(), "List of capitals should be empty for zero input");
+    }
+
+    /**
+     * This method tests the behavior of the {@code displayTopPopulatedCapitalCitiesInWorld} method
+     * when provided with a positive input for the number of cities.
+     */
+    @Test
+    void testDisplayTopPopulatedCapitalCitiesInWorldWithCorrectInput() {
+        // Define a positive value for testing
+        int topN = 10;
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.displayTopPopulatedCapitalCitiesInWorld(topN);
+
+        // Check if the list of capitals is not null
+        assertNotNull(capitals, "List of capitals should not be null");
+
+        // Check if the list of capitals is not empty
+        assertFalse(capitals.isEmpty(), "List of capitals should not be empty");
+
+        Capital firstCapital = capitals.get(0);
+        assertEquals("Seoul", firstCapital.getName(),
+                "Last country should be 'Seoul'");
+    }
+    /**
+     * This method tests the behavior of the {@code displayTopPopulatedCapitalCitiesInContinent} method
+     * when provided with a negative input for the number of cities and a continent.
+     */
+    @Test
+    void testDisplayTopPopulatedCapitalCitiesInContinentNegativeInput() {
+        // Define a negative value for testing
+        int topN = -5;
+        String continent = "Europe"; // Define a continent for testing
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.displayTopPopulatedCapitalCitiesInContinent(topN, continent);
+
+        // Check if the list of capitals is empty
+        assertTrue(capitals.isEmpty(), "List of capitals should be empty for negative input");
+    }
+
+    /**
+     * This method tests the behavior of the {@code displayTopPopulatedCapitalCitiesInContinent} method
+     * when provided with a zero input for the number of cities and a continent.
+     */
+    @Test
+    void testDisplayTopPopulatedCapitalCitiesInContinentZeroInput() {
+        // Define a zero value for testing
+        int topN = 0;
+        String continent = "Europe"; // Define a continent for testing
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.displayTopPopulatedCapitalCitiesInContinent(topN, continent);
+
+        // Check if the list of capitals is empty
+        assertTrue(capitals.isEmpty(), "List of capitals should be empty for zero input");
+    }
+
+    /**
+     * This method tests the behavior of the {@code displayTopPopulatedCapitalCitiesInContinent} method
+     * when provided with a null continent and a positive input for the number of cities.
+     */
+    @Test
+    void testDisplayTopPopulatedCapitalCitiesInContinentNullContinent() {
+        // Define a null continent for testing
+        int topN = 5;
+        String continent = null;
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.displayTopPopulatedCapitalCitiesInContinent(topN, continent);
+
+        // Check if the list of capitals is null
+        assertNull(capitals, "List of capitals should be null for null continent");
+    }
+
+    /**
+     * This method tests the behavior of the {@code displayTopPopulatedCapitalCitiesInContinent} method
+     * when provided with an invalid continent name and a positive input for the number of cities.
+     */
+    @Test
+    void testDisplayTopPopulatedCapitalCitiesInContinentInvalidContinent() {
+        // Define an invalid continent name for testing
+        int topN = 5;
+        String continent = "InvalidContinent";
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.displayTopPopulatedCapitalCitiesInContinent(topN, continent);
+
+        // Check if the list of capitals is empty
+        assertTrue(capitals.isEmpty(), "List of capitals should be empty for invalid continent");
+    }
+
+    /**
+     * This method tests the behavior of the {@code displayTopPopulatedCapitalCitiesInContinent} method
+     * when provided with correct input: a positive value for the number of cities and a valid continent.
+     * It verifies that the method returns a non-null list of capitals, which is not empty, and that
+     * the last capital city in the list matches the expected value for the specified continent.
+     */
+    @Test
+    void testDisplayTopPopulatedCapitalCitiesInContinentWithCorrectInput() {
+        // Define a positive value for testing
+        int topN = 10;
+        String continent = "Europe"; // Define a continent for testing
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.displayTopPopulatedCapitalCitiesInContinent(topN, continent);
+
+        // Check if the list of capitals is not null
+        assertNotNull(capitals, "List of capitals should not be null");
+
+        // Check if the list of capitals is not empty
+        assertFalse(capitals.isEmpty(), "List of capitals should not be empty");
+
+        Capital lastCapital = capitals.get(capitals.size() - 1);
+        assertEquals("Minsk", lastCapital.getName(),
+                "Last capital city should be 'Minsk'");
+    }
 }
