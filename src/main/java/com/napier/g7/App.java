@@ -264,6 +264,35 @@ public class App
     }
 
     /**
+     * Prints the details of a list of capital cities in a formatted table.
+     *
+     * @param capitals The list of Capital objects to print.
+     */
+    public void printCapitalCities(ArrayList<Capital> capitals) {
+        // Check if capitals is not null
+        if (capitals == null || capitals.isEmpty()) {
+            System.out.println("No capital cities");
+            return;
+        }
+
+        // Print header
+        System.out.println(String.format("%-15s %-35s %-45s %-15s",
+                "ID", "Name", "Country Name", "Population"));
+
+        // Loop over all capital cities in the list
+        for (Capital capital : capitals) {
+            if (capital == null)
+                continue;
+            // Format population with commas
+            NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+            String formattedPopulation = numberFormat.format(capital.getPopulation());
+            String capitalString = String.format("%-15s %-35s %-45s %-15s",
+                    capital.getId(), capital.getName(), capital.getCountryName(), formattedPopulation);
+            System.out.println(capitalString);
+        }
+    }
+
+    /**
      * Retrieves a list of all countries ordered by population in descending
      * order.
      *
