@@ -201,6 +201,18 @@ public class App
         System.out.println("\n**********Population Details in "+ targetContinent +  " Continent********\n");
         a.displayContinentPopulation(targetContinent);
 
+        // Call the method to display the population of a region
+        System.out.println("\n**********Population Details in " +targetRegion+ " Region********\n");
+        a.displayRegionPopulation(targetRegion);
+
+        // Call the method to display the population of a country
+        System.out.println("\n**********Population Details in "+ targetCountry+ " Country********\n");
+        a.displayCountryPopulation(targetCountry);
+
+        // Call the method to display the population of a district
+        System.out.println("\n**********Population Details in " +targetDistrict+  " District********\n");
+        a.displayDistrictPopulation(targetDistrict);
+
         // Disconnect from database
         a.disconnect();
     }
@@ -2039,6 +2051,50 @@ public class App
             System.out.println("Failed to get country population details");
         }
         return countryPopulation;
+    }
+
+    /**
+     * Displays the population of a district.
+     *
+     * @param district The district for which to display the population.
+     */
+    public long displayDistrictPopulation(String district) {
+        long districtPopulation = 0;
+        try {
+            if (district == null) {
+                System.out.println("Region cannot be null");
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT SUM(population) AS districtPopulation " +
+                            "FROM city " +
+                            "WHERE district = '" + district + "'";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+
+            // Loop over the results
+            if (rset.next()) {
+                districtPopulation = rset.getLong("districtPopulation");
+
+                // Format numbers with commas
+                String formattedDistrictPopulation = String.format("%,d", districtPopulation);
+
+                // Print the details
+                System.out.println(String.format("%-20s",
+                        formattedDistrictPopulation));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get district population details");
+        }
+        return districtPopulation;
     }
 
 
