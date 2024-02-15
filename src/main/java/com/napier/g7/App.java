@@ -1727,6 +1727,67 @@ public class App
         }
     }
 
+    /**
+     * Displays the population of people, people living in cities, and people not living in cities in each region.
+     */
+    public void displayPopulationDetailsByRegion() {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT region, " +
+                            "SUM(country.population) AS totalPopulation, " +
+                            "SUM(city_populations.population_in_cities) AS populationInCities " +
+                            "FROM country " +
+                            "LEFT JOIN ( " +
+                            "    SELECT CountryCode, SUM(Population) AS population_in_cities " +
+                            "    FROM city " +
+                            "    GROUP BY CountryCode " +
+                            ") AS city_populations ON country.Code = city_populations.CountryCode " +
+                            "GROUP BY region " +
+                            "ORDER BY region ASC"; // Add ORDER BY clause
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Print header
+            System.out.println(String.format("%-30s %-20s %-20s %-35s %-35s %-35s",
+                    "Region", "Total Population", "Population in Cities", "Population In Cities Percentage", "Population Not in Cities", "Population Not In Cities Percentage"));
+
+            // Loop over the results
+            while (rset.next()) {
+                String region = rset.getString("region");
+                long totalPopulation = rset.getLong("totalPopulation");
+                long populationInCities = rset.getLong("populationInCities");
+                long populationNotInCities = totalPopulation - populationInCities;
+
+                // Calculate percentages, handling division by zero
+                double populationInCitiesPercentage = (totalPopulation == 0) ? 0 : (double) populationInCities / totalPopulation * 100;
+                double populationNotInCitiesPercentage = (totalPopulation == 0) ? 0 : (double) populationNotInCities / totalPopulation * 100;
+
+                // Format numbers with commas
+                String formattedTotalPopulation = String.format("%,d", totalPopulation);
+                String formattedPopulationInCities = String.format("%,d", populationInCities);
+                String formattedPopulationNotInCities = String.format("%,d", populationNotInCities);
+
+                // Format percentages with two decimal places
+                String formattedPopulationInCitiesPercentage = String.format("%.2f%%", populationInCitiesPercentage);
+                String formattedPopulationNotInCitiesPercentage = String.format("%.2f%%", populationNotInCitiesPercentage);
+
+                // Print the details with % sign and formatted numbers
+                System.out.println(String.format("%-30s %-20s %-20s %-35s %-35s %-35s",
+                        region, formattedTotalPopulation, formattedPopulationInCities, formattedPopulationInCitiesPercentage,
+                        formattedPopulationNotInCities, formattedPopulationNotInCitiesPercentage));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details by region");
+        }
+    }
 
 
 }
