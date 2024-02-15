@@ -1083,4 +1083,58 @@ public class AppIntegrationTest
         assertEquals("Seoul", lastCapital.getName(),
                 "Last city should be 'Seoul'");
     }
+    /**
+     * This method tests the behavior of the {@code capitalCitiesByContinent} method
+     * when provided with a null continent input.
+     */
+    @Test
+    void testCapitalCitiesByContinentNull() {
+        // Define a null continent for testing
+        String continent = null;
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.capitalCitiesByContinent(continent);
+
+        // Check if the list of capitals is null
+        assertNull(capitals, "List of capitals should be null for null continent input");
+    }
+
+    /**
+     * This method tests the behavior of the {@code capitalCitiesByContinent} method
+     * when provided with an invalid continent input.
+     */
+    @Test
+    void testCapitalCitiesByContinentInvalidContinent() {
+        // Define an invalid continent name for testing
+        String continent = "InvalidContinent";
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.capitalCitiesByContinent(continent);
+
+        // Check if the list of capitals is empty
+        assertTrue(capitals.isEmpty(), "List of capitals should be empty for an invalid continent");
+    }
+
+    /**
+     * This method tests the behavior of the {@code capitalCitiesByContinent} method
+     * when provided with a correct continent input.
+     */
+    @Test
+    void testCapitalCitiesByContinentWithCorrectInput() {
+        // Define a continent for testing
+        String continent = "Europe";
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.capitalCitiesByContinent(continent);
+
+        // Check if the list of capitals is not null
+        assertNotNull(capitals, "List of capitals should not be null for a valid continent");
+
+        // Check if the list of capitals is not empty
+        assertFalse(capitals.isEmpty(), "List of capitals should not be empty for a valid continent");
+        Capital firstCapital = capitals.get(0);
+        assertEquals("Moscow", firstCapital.getName(),
+                "Last country should be 'Moscow'");
+
+    }
 }
