@@ -1499,6 +1499,26 @@ public class AppIntegrationTest
         Assertions.assertTrue(printedOutput.contains("Afghanistan"), "Output is not as expected");
     }
 
+    /**
+     * Test case to verify the correctness of the displayWorldPopulation method.
+     *
+     * <p>Ensures that the method returns a non-negative value greater than 0.
+     */
+    @Test
+    void testDisplayWorldPopulation() {
+        // Call the method under test
+        long worldPopulation = app.displayWorldPopulation();
+
+        // Check if worldPopulation is not negative
+        assertTrue(worldPopulation >= 0, "World population should not be negative");
+
+        // Check if worldPopulation is greater than 0
+        assertTrue(worldPopulation > 0, "World population should be greater than 0");
+
+        assertEquals(6078749450L, worldPopulation,
+                "Population should meet exception'");
+    }
+
 
 
 
