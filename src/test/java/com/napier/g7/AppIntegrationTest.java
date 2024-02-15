@@ -1,13 +1,13 @@
 package com.napier.g7;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 public class AppIntegrationTest
 {
     static App app;
@@ -24,6 +24,23 @@ public class AppIntegrationTest
         app = new App();
         app.connect("localhost:33060", 30000);
 
+    }
+
+    // Stores the original System.out
+    private final PrintStream standardOut = System.out;
+
+    // Used to capture the output from System.out
+    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+
+    /**
+     * Restores the standard output stream after each test method.
+     * This method is annotated with {@code @AfterEach} and is executed after each test method.
+     * It sets the standard output stream back to its original value, ensuring that the output
+     * produced during the test method execution is directed to the standard output as usual.
+     */
+    @AfterEach
+    void tearDown() {
+        System.setOut(standardOut);
     }
 
     /**
@@ -1435,6 +1452,21 @@ public class AppIntegrationTest
         Capital lastCapital = capitals.get(capitals.size() - 1);
         assertEquals("Dili", lastCapital.getName(),
                 "Last capital city should be 'Dili'");
+    }
+
+    @Test
+    void testDisplayPopulationDetailsByContinent() {
+        // Redirect System.out to outputStreamCaptor
+        System.setOut(new PrintStream(outputStreamCaptor));
+
+        // Call the method under test
+        app.displayPopulationDetailsByContinent();
+
+        // Get the printed output
+        String printedOutput = outputStreamCaptor.toString().trim();
+
+        // Assert that the output is as expected
+        Assertions.assertTrue(printedOutput.contains("Asia"), "Output is not as expected");
     }
 
 }
