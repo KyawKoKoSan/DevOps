@@ -1865,5 +1865,41 @@ public class App
     }
 
 
+    /**
+     * Displays the population of the world.
+     */
+    public long displayWorldPopulation() {
+        long worldPopulation = 0;
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT SUM(population) AS worldPopulation " +
+                            "FROM country";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Loop over the results
+            if (rset.next()) {
+                worldPopulation = rset.getLong("worldPopulation");
+
+                // Format numbers with commas
+                String formattedWorldPopulation = String.format("%,d", worldPopulation);
+
+                // Print the details
+                System.out.println(String.format("%-20s",
+                        formattedWorldPopulation));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get world population details");
+        }
+        return worldPopulation;
+    }
 
 }
