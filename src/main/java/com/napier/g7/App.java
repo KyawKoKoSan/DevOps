@@ -1997,5 +1997,52 @@ public class App
         return regionPopulation;
     }
 
+    /**
+     * Displays the population of a country.
+     *
+     * @param country The country for which to display the population.
+     */
+    public long displayCountryPopulation(String country) {
+        long countryPopulation = 0;
+        try {
+            if (country == null) {
+                System.out.println("Region cannot be null");
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT population " +
+                            "FROM country " +
+                            "WHERE name = '" + country + "'";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+
+            // Loop over the results
+            if (rset.next()) {
+                countryPopulation = rset.getLong("population");
+
+                // Format numbers with commas
+                String formattedCountryPopulation = String.format("%,d", countryPopulation);
+
+                // Print the details
+                System.out.println(String.format("%-20s",
+                        formattedCountryPopulation));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get country population details");
+        }
+        return countryPopulation;
+    }
+
+
+
+
 
 }
