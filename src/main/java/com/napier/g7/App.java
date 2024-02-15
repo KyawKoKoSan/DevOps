@@ -2098,7 +2098,48 @@ public class App
     }
 
 
+    /**
+     * Displays the population of a city.
+     *
+     * @param cityName The city for which to display the population.
+     */
+    public long displayCityPopulation(String cityName) {
+        long cityPopulation = 0;
+        try {
+            if (cityName == null) {
+                System.out.println("Region cannot be null");
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
 
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT population " +
+                            "FROM city " +
+                            "WHERE name = '" + cityName + "'";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Loop over the results
+            if (rset.next()) {
+                cityPopulation = rset.getLong("population");
+
+                // Format numbers with commas
+                String formattedCityPopulation = String.format("%,d", cityPopulation);
+
+                // Print the details
+                System.out.println(String.format("%-20s",
+                        formattedCityPopulation));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get city population details");
+        }
+        return cityPopulation;
+    }
 
 
 }
