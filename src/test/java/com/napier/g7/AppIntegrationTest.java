@@ -1775,5 +1775,20 @@ public class AppIntegrationTest
                 "Population should meet exception'");
     }
 
+    @Test
+    void testDisplayLanguagePopulations() {
+        // Redirect System.out to outputStreamCaptor
+        System.setOut(new PrintStream(outputStreamCaptor));
+
+        // Call the method under test
+        app.displayLanguagePopulations();
+
+        // Get the printed output
+        String printedOutput = outputStreamCaptor.toString().trim();
+
+        // Assert that the output is as expected
+        Assertions.assertTrue(printedOutput.contains("Chinese"), "Output is not as expected");
+    }
+
 
 }
