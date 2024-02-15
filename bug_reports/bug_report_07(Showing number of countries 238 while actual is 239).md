@@ -1,11 +1,11 @@
 ---
-description: "Calculation error in population details by countries"
-expected_behavior: "should show correct calculated numbers instead of wrong population in cities "
-actual_behaviour: "showing wrong population in cities  instead of correct calculated numbers"
+description: "Showing number of countries 238 while actual is 239"
+expected_behavior: "should show correct countries numbers 239 instead of wrong number 238 "
+actual_behaviour: "showing wrong number 238  instead of correct countries numbers 239"
 priority: "P2"
-impact: "moderate impact as that is not important to show the message 'correct calculated numbers' instead of wrong population in cities "
+impact: "moderate impact as that is a little important to show correct countries numbers 239 instead of wrong countries number 238 "
 screenshots: |
-  [Bug Screenshot 1](https://github.com/AdamCold/group7/blob/develop/bug_reports/bugs_image/bug5.png)
+  [Bug Screenshot 1](https://github.com/AdamCold/group7/blob/develop/bug_reports/bugs_image/bug7.png)
 
 desktop:
   os: "Windows"
