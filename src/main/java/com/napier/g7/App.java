@@ -143,6 +143,31 @@ public class App
         System.out.println("\n**********Top " + numberOfCities + " Cities in " + targetDistrict + "********\n");
         a.displayTopPopulatedCitiesInDistrict(numberOfCities, targetDistrict);
 
+        // Call the method and print the details
+        ArrayList<Capital> capitalCities = a.getAllCapitalCities();
+        System.out.println("\n**********Capital Cities********\n");
+        // Print the count of capital cities
+        int countOfCapitals = capitalCities.size();
+        System.out.println("Number of capital cities: " + countOfCapitals + "\n");
+        a.printCapitalCities(capitalCities);
+
+        // Get all capital cities in the specified continent
+        ArrayList<Capital> capitalsByContinent = a.capitalCitiesByContinent(targetContinent);
+        System.out.println("\n**********Capital Cities in " + targetContinent + "********\n");
+        // Print the count of capital cities
+        int countCapitalsByContinent = capitalsByContinent.size();
+        System.out.println("Number of capital cities: " + countCapitalsByContinent + "\n");
+        a.printCapitalCities(capitalsByContinent);
+
+
+        // Get all capital cities in the specified region
+        ArrayList<Capital> capitalsByRegion = a.capitalCitiesByRegion(targetRegion);
+        System.out.println("\n**********Capital Cities in " + targetRegion + "********\n");
+        // Print the count of capital cities
+        int countCapitalsByRegion = capitalsByRegion.size();
+        System.out.println("Number of capital cities: " + countCapitalsByRegion + "\n");
+        a.printCapitalCities(capitalsByRegion);
+
         // Disconnect from database
         a.disconnect();
     }
@@ -1387,6 +1412,61 @@ public class App
             // Print error messages in case of an exception
             System.out.println(e.getMessage());
             System.out.println("Failed to get capital city details by continent");
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Retrieves a list of capital cities based on the specified region, ordered by
+     * population in descending order.
+     *
+     * @param region The region to filter capital cities.
+     * @return An ArrayList of Capital objects representing capital cities in the specified
+     *         region, ordered by population in descending order.
+     */
+    public ArrayList<Capital> capitalCitiesByRegion(String region) {
+        try {
+            if (region == null) {
+                System.out.println("Region cannot be null");
+                return null;
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT ci.ID, ci.name AS cityName, c.name AS countryName, ci.population " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "WHERE c.region = '" + region + "' " +
+                            "ORDER BY ci.population DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract capital city information
+            ArrayList<Capital> capitals = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new Capital object
+                Capital capital = new Capital();
+                // Set capital attributes from the result set
+                capital.setId(rset.getInt("ID"));
+                capital.setName(rset.getString("cityName"));
+                capital.setCountryName(rset.getString("countryName"));
+                capital.setPopulation(rset.getLong("population"));
+                // Add the Capital object to the ArrayList
+                capitals.add(capital);
+            }
+            // Check if any capital cities were found for the given region
+            if (capitals.isEmpty()) {
+                System.out.println("No capital cities found for region: " + region);
+            }
+            // Return the list of capital cities
+            return capitals;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get capital city details by region");
             return new ArrayList<>();
         }
     }
