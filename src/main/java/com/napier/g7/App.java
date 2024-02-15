@@ -193,6 +193,14 @@ public class App
         System.out.println("\n**********Population Details by Country********\n");
         a.displayPopulationDetailsByCountry();
 
+        // Call the method to display world population
+        System.out.println("\n**********World Population********\n");
+        a.displayWorldPopulation();
+
+        // Call the method to display continent population
+        System.out.println("\n**********Population Details in "+ targetContinent +  " Continent********\n");
+        a.displayContinentPopulation(targetContinent);
+
         // Disconnect from database
         a.disconnect();
     }
