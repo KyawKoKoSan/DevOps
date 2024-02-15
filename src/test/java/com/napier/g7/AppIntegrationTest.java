@@ -1469,4 +1469,19 @@ public class AppIntegrationTest
         Assertions.assertTrue(printedOutput.contains("Asia"), "Output is not as expected");
     }
 
+    @Test
+    void testDisplayPopulationDetailsByRegion() {
+        // Redirect System.out to outputStreamCaptor
+        System.setOut(new PrintStream(outputStreamCaptor));
+
+        // Call the method under test
+        app.displayPopulationDetailsByRegion();
+
+        // Get the printed output
+        String printedOutput = outputStreamCaptor.toString().trim();
+
+        // Assert that the output is as expected
+        Assertions.assertTrue(printedOutput.contains("Southeast Asia"), "Output is not as expected");
+    }
+
 }
