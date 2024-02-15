@@ -1,6 +1,6 @@
 ## **DevOps Group Project By G7**
 
-**Code Review 3**
+**Code Review 4**
 
 ## Overview
 
@@ -45,7 +45,7 @@ This project emphasizes integration test coverage to ensure the reliability and 
   
 ## Version
 
-Current version: 0.1-alpha-4 (Released on 2024-02-08)
+Current version: 0.1-alpha-5 (Released on 2024-02-16)
 
 - Master Build Status ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/AdamCold/group7/main.yml?branch=master)
 
@@ -55,4 +55,4 @@ Current version: 0.1-alpha-4 (Released on 2024-02-08)
 
 - Release [![Releases](https://img.shields.io/github/release/AdamCold/group7/all.svg?style=flat-square)](https://github.com/AdamCold/group7/releases)
 
-
+- [![codecov](https://codecov.io/gh/AdamCold/group7/graph/badge.svg?token=7I4F1K7UUK)](https://codecov.io/gh/AdamCold/group7)
