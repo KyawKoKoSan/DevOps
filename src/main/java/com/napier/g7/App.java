@@ -41,6 +41,7 @@ public class App
         String targetRegion = "Southeast Asia";  // Replace "Southeast Asia" with the desired region
         String targetCountry = "Myanmar"; // Replace "Myanmar" with the desired country
         String targetDistrict = "England"; // Replace "England" with the desired District
+        String targetCity = "Rangoon (Yangon)"; // Replace "Rangoon (Yangon)" with the desired City
         int numberOfCountries = 10; // Replace "10" with the desired number
         int numberOfCities = 10; // Replace "10" with the desired number
         int numberOfCapitals = 10; // Replace "10" with the desired number
@@ -212,6 +213,14 @@ public class App
         // Call the method to display the population of a district
         System.out.println("\n**********Population Details in " +targetDistrict+  " District********\n");
         a.displayDistrictPopulation(targetDistrict);
+
+        // Call the method to display the population of a city
+        System.out.println("\n**********Population Details inc"+ targetCity +" City********\n");
+        a.displayCityPopulation(targetCity);
+
+        // Call the method to display language populations
+        System.out.println("\n********** Language Populations ********\n");
+        a.displayLanguagePopulations();
 
         // Disconnect from database
         a.disconnect();
@@ -2141,5 +2150,57 @@ public class App
         return cityPopulation;
     }
 
+    /**
+     * Displays the populations of specific languages from greatest to smallest,
+     * including the percentage of the world population for each language.
+     * The languages included are Chinese, English, Hindi, Spanish, and Arabic.
+     */
+
+    public void displayLanguagePopulations() {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT cl.language, " +
+                            "ROUND(SUM(cl.percentage * c.population)/100) AS totalPopulation, " +
+                            "SUM(cl.percentage * c.population) / (SELECT SUM(c.population) FROM country c) AS populationPercentage " +
+                            "FROM countrylanguage cl " +
+                            "JOIN country c ON cl.countrycode = c.code " +
+                            "WHERE cl.language IN ('Chinese', 'English', 'Hindi', 'Spanish', 'Arabic') " +
+                            "GROUP BY cl.language " +
+                            "ORDER BY totalPopulation DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Print header
+            System.out.println(String.format("%-20s %-20s %-20s",
+                    "Language", "Total Population", "Population Percentage"));
+
+            // Loop over the results
+            while (rset.next()) {
+                String language = rset.getString("language");
+                long totalPopulation = rset.getLong("totalPopulation");
+                double populationPercentage = rset.getDouble("populationPercentage");
+
+                // Format numbers with commas
+                String formattedTotalPopulation = String.format("%,d", totalPopulation);
+
+                // Format percentage with two decimal places
+                String formattedPopulationPercentage = String.format("%.2f%%", populationPercentage);
+
+                // Print the details
+                System.out.println(String.format("%-20s %-20s %-20s",
+                        language, formattedTotalPopulation, formattedPopulationPercentage));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get language populations");
+        }
+    }
 
 }
