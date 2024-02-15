@@ -1519,6 +1519,57 @@ public class AppIntegrationTest
                 "Population should meet exception'");
     }
 
+    /**
+     * Test case to verify the behavior of displayContinentPopulation when a null continent is provided.
+     */
+    @Test
+    void testDisplayContinentPopulationNullContinent() {
+        // Define a null continent for testing
+        String continent = null;
+
+        // Call the method under test
+        long population = app.displayContinentPopulation(continent);
+
+        // Check if population is 0
+        assertEquals(0, population, "Population should be 0 for null continent input");
+    }
+
+    /**
+     * Test case to verify the behavior of displayContinentPopulation when an invalid continent is provided.
+     */
+    @Test
+    void testDisplayContinentPopulationInvalidContinent() {
+        // Define an invalid continent name for testing
+        String continent = "InvalidContinent";
+
+        // Call the method under test
+        long population = app.displayContinentPopulation(continent);
+
+        // Check if population is 0
+        assertEquals(0, population, "Population should be 0 for an invalid continent");
+    }
+
+    /**
+     * Test case to verify the behavior of displayContinentPopulation when correct input is provided.
+     */
+    @Test
+    void testDisplayContinentPopulationWithCorrectInput() {
+        // Define a continent for testing
+        String continent = "Europe";
+
+        // Call the method under test
+        long population = app.displayContinentPopulation(continent);
+
+        // Check if population is greater than or equal to 0
+        assertTrue(population >= 0, "Population should be non-negative for a valid continent");
+
+        // Check if population is greater than 0
+        assertTrue(population > 0, "Population should be greater than 0 for a valid continent");
+
+        assertEquals(730074600L, population,
+                "Population should meet exception'");
+    }
+
 
 
 
