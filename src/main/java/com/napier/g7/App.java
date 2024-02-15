@@ -1874,7 +1874,6 @@ public class App
                 // Format numbers with commas
                 String formattedTotalPopulation = String.format("%,d", totalPopulation);
                 String formattedPopulationInCities = String.format("%,d", populationInCities);
-                String formattedPopulationNotInCities = String.format("%,d", populationNotInCities);
 
                 // Format percentages with two decimal places
                 String formattedPopulationInCitiesPercentage = String.format("%.2f%%", populationInCitiesPercentage);
