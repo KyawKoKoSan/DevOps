@@ -415,7 +415,10 @@ public class App
                 country.setGovernmentForm(rset.getString("governmentForm"));
                 country.setHeadOfState(rset.getString("headOfState"));
                 country.setCapital(rset.getInt("capital"));
-                country.setCapitalName(rset.getString("capitalName"));
+
+                // Set capital name, handling null case
+                String capitalName = rset.getString("capitalName");
+                country.setCapitalName(capitalName != null ? capitalName : "no capital");
                 // Add the Country object to the ArrayList
                 countries.add(country);
             }
@@ -1394,7 +1397,9 @@ public class App
                 Capital capital = new Capital();
                 // Set capital attributes from the result set
                 capital.setId(rset.getInt("ID"));
-                capital.setName(rset.getString("cityName"));
+                // Set capital name, handling null case
+                String cityName = rset.getString("cityName");
+                capital.setName(cityName != null ? cityName : "no name found");
                 capital.setCountryName(rset.getString("countryName"));
                 capital.setPopulation(rset.getLong("population"));
                 // Add the Capital object to the ArrayList
