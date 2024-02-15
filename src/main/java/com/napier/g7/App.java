@@ -1902,4 +1902,48 @@ public class App
         return worldPopulation;
     }
 
+    /**
+     * Displays the population of a continent.
+     *
+     * @param continent The continent for which to display the population.
+     */
+    public long displayContinentPopulation(String continent) {
+        long continentPopulation = 0;
+        try {
+            if (continent == null) {
+                System.out.println("Region cannot be null");
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT SUM(population) AS continentPopulation " +
+                            "FROM country " +
+                            "WHERE continent = '" + continent + "'";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Loop over the results
+            if (rset.next()) {
+                continentPopulation = rset.getLong("continentPopulation");
+
+                // Format numbers with commas
+                String formattedContinentPopulation = String.format("%,d", continentPopulation);
+
+                // Print the details
+                System.out.println(String.format("%-20s",
+                        formattedContinentPopulation));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get continent population details");
+        }
+        return continentPopulation;
+    }
+
+
 }
