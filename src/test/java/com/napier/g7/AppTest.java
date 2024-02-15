@@ -125,4 +125,73 @@ public class AppTest
         app.printCities(cities);
     }
 
+    /**
+     * Test case for printing capital cities when the input list is null.
+     */
+    @Test
+    void printCapitalCitiesTestNull() {
+        try {
+            // Call the method under test with null parameter
+            app.printCapitalCities(null);
+        } catch (Exception e) {
+            fail("Unexpected exception occurred: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Test case for printing capital cities when the input list is empty.
+     */
+    @Test
+    void printCapitalCitiesTestEmpty() {
+        try{
+            // Create an empty list of capital cities
+            ArrayList<Capital> capitals = new ArrayList<>();
+
+            // Call the method under test with empty input list
+            app.printCapitalCities(capitals);
+        } catch (Exception e) {
+            fail("Unexpected exception occurred: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Test case for printing capital cities when the input list contains null elements.
+     */
+    @Test
+    void printCapitalCitiesTestContainsNull() {
+        try{
+            // Create a list of capital cities containing null elements
+            ArrayList<Capital> capitals = new ArrayList<>();
+            capitals.add(null);
+
+            // Call the method under test with input list containing null elements
+            app.printCapitalCities(capitals);
+        } catch (Exception e) {
+            fail("Unexpected exception occurred: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Test case for printing capital cities when the input list contains valid capital city objects.
+     */
+    @Test
+    void printCapitalCitiesTest() {
+        // Create a list of capital cities
+        ArrayList<Capital> capitals = new ArrayList<>();
+
+        // Create a few capital city objects
+        Capital capital1 = new Capital();
+        capital1.setId(1);
+        capital1.setName("Tokyo");
+        capital1.setCountryName("Japan");
+        capital1.setPopulation(37400000); // Population of Tokyo
+        capitals.add(capital1);
+
+        // Call the method under test
+        System.out.println("\n********** Capital Cities Details ********\n");
+        app.printCapitalCities(capitals);
+        assertEquals("Tokyo", capital1.getName(),
+                "First country should be 'Tokyo'");
+    }
+
 }
