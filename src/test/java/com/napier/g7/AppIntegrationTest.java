@@ -1137,4 +1137,57 @@ public class AppIntegrationTest
                 "Last country should be 'Moscow'");
 
     }
+    /**
+     * This method tests the behavior of the {@code capitalCitiesByRegion} method
+     * when provided with a null region input.
+     */
+    @Test
+    void testCapitalCitiesByRegionNull() {
+        // Define a null region for testing
+        String region = null;
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.capitalCitiesByRegion(region);
+
+        // Check if the list of capitals is null
+        assertNull(capitals, "List of capitals should be null for null region input");
+    }
+
+    /**
+     * This method tests the behavior of the {@code capitalCitiesByRegion} method
+     * when provided with an invalid region input.
+     */
+    @Test
+    void testCapitalCitiesByRegionInvalidRegion() {
+        // Define an invalid region name for testing
+        String region = "InvalidRegion";
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.capitalCitiesByRegion(region);
+
+        // Check if the list of capitals is empty
+        assertTrue(capitals.isEmpty(), "List of capitals should be empty for an invalid region");
+    }
+
+    /**
+     * This method tests the behavior of the {@code capitalCitiesByRegion} method
+     * when provided with a correct region input.
+     */
+    @Test
+    void testCapitalCitiesByRegionWithCorrectInput() {
+        // Define a region for testing
+        String region = "Southeast Asia";
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.capitalCitiesByRegion(region);
+
+        // Check if the list of capitals is not null
+        assertNotNull(capitals, "List of capitals should not be null for a valid region");
+
+        // Check if the list of capitals is not empty
+        assertFalse(capitals.isEmpty(), "List of capitals should not be empty for a valid continent");
+        Capital firstCapital = capitals.get(0);
+        assertEquals("Jakarta", firstCapital.getName(),
+                "Last country should be 'Jakarta'");
+    }
 }
