@@ -1065,4 +1065,22 @@ public class AppIntegrationTest
         assertEquals("Bradford", lastCity.getName(),
                 "Last city should be 'Bradford'");
     }
+    /**
+     * Test method for {@link App#getAllCapitalCities()}.
+     */
+    @Test
+    void testGetAllCapitalCities() {
+        // Call the method under test
+        ArrayList<Capital> capitals = app.getAllCapitalCities();
+
+        // Check if the list of capitals is not null
+        assertNotNull(capitals, "List of capital cities should not be null");
+
+        // Check if the list of capitals is not empty
+        assertFalse(capitals.isEmpty(), "List of capital cities should not be empty");
+
+        Capital lastCapital = capitals.get(0);
+        assertEquals("Seoul", lastCapital.getName(),
+                "Last city should be 'Seoul'");
+    }
 }
