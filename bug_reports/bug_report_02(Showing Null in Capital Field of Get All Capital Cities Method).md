@@ -1,12 +1,12 @@
 ---
-description: "Showing Null in Capital Field of Get All Capital Cities Method"
-expected_behavior: "should show capital cities name if there is no capital cities name, need to show"no name found" message instead of null"
-actual_behaviour: "showing null instead of "no name found" message"
+description: "Showing Null in Capital Field of Get All Countries Method"
+expected_behavior: "should show capital name if there is no capital name, need to show 'no capital' message instead of null"
+actual_behaviour: "showing null instead of capital name"
 priority: "P2"
-impact: "Low impact as that is not important to show the message 'no name found' instead of null"
+impact: "Low impact as that is not important to show the message 'no capital' instead of null"
 screenshots: |
-  ![Bug Screenshot 1](https://github.com/AdamCold/group7/blob/develop/bug_reports/bugs_image/bug2.png)
-  ![Bug Screenshot 2](https://github.com/AdamCold/group7/blob/develop/bug_reports/bugs_image/bug2.1.png)
+  ![Bug Screenshot 1](https://github.com/AdamCold/group7/blob/develop/bug_reports/bugs_image/bug1.png)
+  ![Bug Screenshot 2](https://github.com/AdamCold/group7/blob/develop/bug_reports/bugs_image/bug1.1.png)
 desktop:
   os: "Windows"
   browser: "Chrome"
