@@ -181,6 +181,18 @@ public class App
         System.out.println("\n**********Top " + numberOfCapitals + " Capital Cities in " + targetRegion + "********\n");
         a.displayTopPopulatedCapitalCitiesInRegion(numberOfCapitals, targetRegion);
 
+        // Call the method to display population details by continent
+        System.out.println("\n**********Population Details by Continent********\n");
+        a.displayPopulationDetailsByContinent();
+
+        // Call the method to display population details by region
+        System.out.println("\n**********Population Details by Region********\n");
+        a.displayPopulationDetailsByRegion();
+
+        // Call the method to display population details by country
+        System.out.println("\n**********Population Details by Country********\n");
+        a.displayPopulationDetailsByCountry();
+
         // Disconnect from database
         a.disconnect();
     }
