@@ -1673,6 +1673,56 @@ public class AppIntegrationTest
     }
 
 
+    /**
+     * Test case to verify the behavior of displayDistrictPopulation when a null district is provided.
+     */
+    @Test
+    void testDisplayDistrictPopulationNullDistrict() {
+        // Define a null district for testing
+        String district = null;
+
+        // Call the method under test
+        long population = app.displayDistrictPopulation(district);
+
+        // Check if population is 0
+        assertEquals(0, population, "Population should be 0 for null district input");
+    }
+
+    /**
+     * Test case to verify the behavior of displayDistrictPopulation when an invalid district is provided.
+     */
+    @Test
+    void testDisplayDistrictPopulationInvalidDistrict() {
+        // Define an invalid district name for testing
+        String district = "InvalidDistrict";
+
+        // Call the method under test
+        long population = app.displayDistrictPopulation(district);
+
+        // Check if population is 0
+        assertEquals(0, population, "Population should be 0 for an invalid district");
+    }
+
+    /**
+     * Test case to verify the behavior of displayDistrictPopulation when correct input is provided.
+     */
+    @Test
+    void testDisplayDistrictPopulationWithCorrectInput() {
+        // Define a district for testing
+        String district = "England";
+
+        // Call the method under test
+        long population = app.displayDistrictPopulation(district);
+
+        // Check if population is greater than or equal to 0
+        assertTrue(population >= 0, "Population should be non-negative for a valid district");
+
+        // Check if population is greater than 0
+        assertTrue(population > 0, "Population should be greater than 0 for a valid district");
+
+        assertEquals(19978543L, population,
+                "Population should meet exception'");
+    }
 
 
 }
