@@ -1953,5 +1953,49 @@ public class App
         return continentPopulation;
     }
 
+    /**
+     * Displays the population of a region.
+     *
+     * @param region The region for which to display the population.
+     */
+    public long displayRegionPopulation(String region) {
+        long regionPopulation = 0;
+        try {
+            if (region == null) {
+                System.out.println("Region cannot be null");
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT SUM(population) AS regionPopulation " +
+                            "FROM country " +
+                            "WHERE region = '" + region + "'";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+
+            // Loop over the results
+            if (rset.next()) {
+                regionPopulation = rset.getLong("regionPopulation");
+
+                // Format numbers with commas
+                String formattedRegionPopulation = String.format("%,d", regionPopulation);
+
+                // Print the details
+                System.out.println(String.format("%-20s",
+                        formattedRegionPopulation));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get region population details");
+        }
+        return regionPopulation;
+    }
+
 
 }
