@@ -1621,6 +1621,57 @@ public class AppIntegrationTest
                 "Population should meet exception'");
     }
 
+    /**
+     * Test case to verify the behavior of displayCountryPopulation when a null country is provided.
+     */
+    @Test
+    void testDisplayCountryPopulationNullCountry() {
+        // Define a null country for testing
+        String country = null;
+
+        // Call the method under test
+        long population = app.displayCountryPopulation(country);
+
+        // Check if population is 0
+        assertEquals(0, population, "Population should be 0 for null country input");
+    }
+
+    /**
+     * Test case to verify the behavior of displayCountryPopulation when an invalid country is provided.
+     */
+    @Test
+    void testDisplayCountryPopulationInvalidCountry() {
+        // Define an invalid country name for testing
+        String country = "InvalidCountry";
+
+        // Call the method under test
+        long population = app.displayCountryPopulation(country);
+
+        // Check if population is 0
+        assertEquals(0, population, "Population should be 0 for an invalid country");
+    }
+
+    /**
+     * Test case to verify the behavior of displayCountryPopulation when correct input is provided.
+     */
+    @Test
+    void testDisplayCountryPopulationWithCorrectInput() {
+        // Define a country for testing
+        String country = "Myanmar";
+
+        // Call the method under test
+        long population = app.displayCountryPopulation(country);
+
+        // Check if population is greater than or equal to 0
+        assertTrue(population >= 0, "Population should be non-negative for a valid country");
+
+        // Check if population is greater than 0
+        assertTrue(population > 0, "Population should be greater than 0 for a valid country");
+
+        assertEquals(45611000L, population,
+                "Population should meet exception'");
+    }
+
 
 
 
