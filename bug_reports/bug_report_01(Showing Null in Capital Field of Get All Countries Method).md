@@ -1,5 +1,5 @@
 ---
-description: "A clear and concise description of what the bug is."
+description: "Showing Null in Capital Field of Get All Countries Method"
 reproduction_steps: |
   A clear and concise description of the steps to reproduce the bug.
 
