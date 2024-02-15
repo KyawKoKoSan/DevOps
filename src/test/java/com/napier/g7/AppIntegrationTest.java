@@ -1190,4 +1190,58 @@ public class AppIntegrationTest
         assertEquals("Jakarta", firstCapital.getName(),
                 "Last country should be 'Jakarta'");
     }
+    /**
+     * This method tests the behavior of the {@code displayTopPopulatedCapitalCitiesInWorld} method
+     * when provided with a negative input for the number of cities.
+     */
+    @Test
+    void testDisplayTopPopulatedCapitalCitiesInWorldNegativeInput() {
+        // Define a negative value for testing
+        int topN = -5;
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.displayTopPopulatedCapitalCitiesInWorld(topN);
+
+        // Check if the list of capitals is empty
+        assertTrue(capitals.isEmpty(), "List of capitals should be empty for negative input");
+    }
+
+    /**
+     * This method tests the behavior of the {@code displayTopPopulatedCapitalCitiesInWorld} method
+     * when provided with a zero input for the number of cities.
+     */
+    @Test
+    void testDisplayTopPopulatedCapitalCitiesInWorldZeroInput() {
+        // Define a zero value for testing
+        int topN = 0;
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.displayTopPopulatedCapitalCitiesInWorld(topN);
+
+        // Check if the list of capitals is empty
+        assertTrue(capitals.isEmpty(), "List of capitals should be empty for zero input");
+    }
+
+    /**
+     * This method tests the behavior of the {@code displayTopPopulatedCapitalCitiesInWorld} method
+     * when provided with a positive input for the number of cities.
+     */
+    @Test
+    void testDisplayTopPopulatedCapitalCitiesInWorldWithCorrectInput() {
+        // Define a positive value for testing
+        int topN = 10;
+
+        // Call the method under test
+        ArrayList<Capital> capitals = app.displayTopPopulatedCapitalCitiesInWorld(topN);
+
+        // Check if the list of capitals is not null
+        assertNotNull(capitals, "List of capitals should not be null");
+
+        // Check if the list of capitals is not empty
+        assertFalse(capitals.isEmpty(), "List of capitals should not be empty");
+
+        Capital firstCapital = capitals.get(0);
+        assertEquals("Seoul", firstCapital.getName(),
+                "Last country should be 'Seoul'");
+    }
 }
