@@ -2,13 +2,14 @@ package com.napier.g7;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-public class AppTest
+
+class AppTest
 {
     static App app;
 
@@ -23,23 +24,32 @@ public class AppTest
         app = new App();
     }
 
+
     /**
      * Test case for printing countries when the input list is null.
      */
     @Test
     void printCountriesTestNull()
     {
-        app.printCountries(null);
+        try {
+            // Call the method under test with null parameter
+            app.printCountries(null);
+        } catch (Exception e) {
+            fail("Unexpected exception occurred: " + e.getMessage());
+        }
     }
 
     /**
      * Test case for printing countries when the input list is empty.
      */
     @Test
-    void printCountriesTestEmpty()
-    {
-        ArrayList<Country> countries = new ArrayList<Country>();
-        app.printCountries(countries);
+    void printCountriesTestEmpty() {
+        try{
+            ArrayList<Country> countries = new ArrayList<Country>();
+            app.printCountries(countries);
+        } catch (Exception e) {
+            fail("Unexpected exception occurred: " + e.getMessage());
+        }
     }
 
     /**
@@ -48,9 +58,13 @@ public class AppTest
     @Test
     void printCountriesTestContainsNull()
     {
-        ArrayList<Country> countries = new ArrayList<Country>();
-        countries.add(null);
-        app.printCountries(countries);
+        try{
+            ArrayList<Country> countries = new ArrayList<Country>();
+            countries.add(null);
+            app.printCountries(countries);
+        } catch (Exception e) {
+            fail("Unexpected exception occurred: " + e.getMessage());
+        }
     }
 
     /**
@@ -74,6 +88,8 @@ public class AppTest
         // Call the method under test
         System.out.println("\n********** Countries Details ********\n");
         app.printCountries(countries);
+        assertEquals("United States", country1.getName(),
+                "First country should be 'United States'");
     }
 
 
@@ -82,7 +98,12 @@ public class AppTest
      */
     @Test
     void printCitiesTestNull() {
-        app.printCities(null);
+        try {
+            // Call the method under test with null parameter
+            app.printCities(null);
+        } catch (Exception e) {
+            fail("Unexpected exception occurred: " + e.getMessage());
+        }
     }
 
     /**
@@ -90,8 +111,12 @@ public class AppTest
      */
     @Test
     void printCitiesTestEmpty() {
-        ArrayList<City> cities = new ArrayList<>();
-        app.printCities(cities);
+        try{
+            ArrayList<City> cities = new ArrayList<>();
+            app.printCities(cities);
+        } catch (Exception e) {
+            fail("Unexpected exception occurred: " + e.getMessage());
+        }
     }
 
     /**
@@ -99,9 +124,13 @@ public class AppTest
      */
     @Test
     void printCitiesTestContainsNull() {
-        ArrayList<City> cities = new ArrayList<>();
-        cities.add(null);
-        app.printCities(cities);
+        try{
+            ArrayList<City> cities = new ArrayList<>();
+            cities.add(null);
+            app.printCities(cities);
+        } catch (Exception e) {
+            fail("Unexpected exception occurred: " + e.getMessage());
+        }
     }
 
     /**
@@ -123,6 +152,77 @@ public class AppTest
         // Call the method under test
         System.out.println("\n********** Cities Details ********\n");
         app.printCities(cities);
+        assertEquals("Kabul", city1.getName(),
+                "First country should be 'Kabul'");
+    }
+
+    /**
+     * Test case for printing capital cities when the input list is null.
+     */
+    @Test
+    void printCapitalCitiesTestNull() {
+        try {
+            // Call the method under test with null parameter
+            app.printCapitalCities(null);
+        } catch (Exception e) {
+            fail("Unexpected exception occurred: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Test case for printing capital cities when the input list is empty.
+     */
+    @Test
+    void printCapitalCitiesTestEmpty() {
+        try{
+            // Create an empty list of capital cities
+            ArrayList<Capital> capitals = new ArrayList<>();
+
+            // Call the method under test with empty input list
+            app.printCapitalCities(capitals);
+        } catch (Exception e) {
+            fail("Unexpected exception occurred: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Test case for printing capital cities when the input list contains null elements.
+     */
+    @Test
+    void printCapitalCitiesTestContainsNull() {
+        try{
+            // Create a list of capital cities containing null elements
+            ArrayList<Capital> capitals = new ArrayList<>();
+            capitals.add(null);
+
+            // Call the method under test with input list containing null elements
+            app.printCapitalCities(capitals);
+        } catch (Exception e) {
+            fail("Unexpected exception occurred: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Test case for printing capital cities when the input list contains valid capital city objects.
+     */
+    @Test
+    void printCapitalCitiesTest() {
+        // Create a list of capital cities
+        ArrayList<Capital> capitals = new ArrayList<>();
+
+        // Create a few capital city objects
+        Capital capital1 = new Capital();
+        capital1.setId(1);
+        capital1.setName("Tokyo");
+        capital1.setCountryName("Japan");
+        capital1.setPopulation(37400000); // Population of Tokyo
+        capitals.add(capital1);
+
+        // Call the method under test
+        System.out.println("\n********** Capital Cities Details ********\n");
+        app.printCapitalCities(capitals);
+        assertEquals("Tokyo", capital1.getName(),
+                "First country should be 'Tokyo'");
     }
 
 }

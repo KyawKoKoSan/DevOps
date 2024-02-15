@@ -16,6 +16,13 @@ jobs:
           distribution: 'adopt'
       - name: Unit Tests
         run: mvn -Dtest=com.napier.g7.AppTest test
+      - name: CodeCov
+        uses: codecov/codecov-action@v2
+        with:
+          # token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          directory: ./target/site/jacoco
+          flags: UnitTests # optional
+          verbose: true # optional (default = false)
 
   IntegrationTests:
     name: Integration Tests
@@ -37,7 +44,14 @@ jobs:
           mvn -Dtest=com.napier.g7.AppIntegrationTest test
           docker stop employees
           docker rm employees
-          docker image rm database                    
+          docker image rm database
+      - name: CodeCov
+        uses: codecov/codecov-action@v2
+        with:
+          # token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          directory: ./target/site/jacoco
+          flags: IntegrationTests # optional
+          verbose: true # optional (default = false)
 
   build:
     name: Build and Start Using docker-compose
@@ -56,3 +70,4 @@ jobs:
         run: |
           mvn package -DskipTests
           docker-compose up --abort-on-container-exit
+

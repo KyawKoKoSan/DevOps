@@ -41,8 +41,10 @@ public class App
         String targetRegion = "Southeast Asia";  // Replace "Southeast Asia" with the desired region
         String targetCountry = "Myanmar"; // Replace "Myanmar" with the desired country
         String targetDistrict = "England"; // Replace "England" with the desired District
+        String targetCity = "Rangoon (Yangon)"; // Replace "Rangoon (Yangon)" with the desired City
         int numberOfCountries = 10; // Replace "10" with the desired number
         int numberOfCities = 10; // Replace "10" with the desired number
+        int numberOfCapitals = 10; // Replace "10" with the desired number
 
 
 
@@ -142,6 +144,83 @@ public class App
         // Extract top N city population information in a specific district
         System.out.println("\n**********Top " + numberOfCities + " Cities in " + targetDistrict + "********\n");
         a.displayTopPopulatedCitiesInDistrict(numberOfCities, targetDistrict);
+
+        // Call the method and print the details
+        ArrayList<Capital> capitalCities = a.getAllCapitalCities();
+        System.out.println("\n**********Capital Cities********\n");
+        // Print the count of capital cities
+        int countOfCapitals = capitalCities.size();
+        System.out.println("Number of capital cities: " + countOfCapitals + "\n");
+        a.printCapitalCities(capitalCities);
+
+        // Get all capital cities in the specified continent
+        ArrayList<Capital> capitalsByContinent = a.capitalCitiesByContinent(targetContinent);
+        System.out.println("\n**********Capital Cities in " + targetContinent + "********\n");
+        // Print the count of capital cities
+        int countCapitalsByContinent = capitalsByContinent.size();
+        System.out.println("Number of capital cities: " + countCapitalsByContinent + "\n");
+        a.printCapitalCities(capitalsByContinent);
+
+
+        // Get all capital cities in the specified region
+        ArrayList<Capital> capitalsByRegion = a.capitalCitiesByRegion(targetRegion);
+        System.out.println("\n**********Capital Cities in " + targetRegion + "********\n");
+        // Print the count of capital cities
+        int countCapitalsByRegion = capitalsByRegion.size();
+        System.out.println("Number of capital cities: " + countCapitalsByRegion + "\n");
+        a.printCapitalCities(capitalsByRegion);
+
+        // Extract top N capital city population information in the world
+        System.out.println("\n**********Top " + numberOfCapitals + " Capital Cities in the World********\n");
+        a.displayTopPopulatedCapitalCitiesInWorld(numberOfCapitals);
+
+        // Extract top N capital city population information on a specific continent
+        System.out.println("\n**********Top " + numberOfCapitals + " Capital Cities in " + targetContinent + "********\n");
+        a.displayTopPopulatedCapitalCitiesInContinent(numberOfCapitals, targetContinent);
+
+        // Extract top N capital city population information in a specific region
+        System.out.println("\n**********Top " + numberOfCapitals + " Capital Cities in " + targetRegion + "********\n");
+        a.displayTopPopulatedCapitalCitiesInRegion(numberOfCapitals, targetRegion);
+
+        // Call the method to display population details by continent
+        System.out.println("\n**********Population Details by Continent********\n");
+        a.displayPopulationDetailsByContinent();
+
+        // Call the method to display population details by region
+        System.out.println("\n**********Population Details by Region********\n");
+        a.displayPopulationDetailsByRegion();
+
+        // Call the method to display population details by country
+        System.out.println("\n**********Population Details by Country********\n");
+        a.displayPopulationDetailsByCountry();
+
+        // Call the method to display world population
+        System.out.println("\n**********World Population********\n");
+        a.displayWorldPopulation();
+
+        // Call the method to display continent population
+        System.out.println("\n**********Population Details in "+ targetContinent +  " Continent********\n");
+        a.displayContinentPopulation(targetContinent);
+
+        // Call the method to display the population of a region
+        System.out.println("\n**********Population Details in " +targetRegion+ " Region********\n");
+        a.displayRegionPopulation(targetRegion);
+
+        // Call the method to display the population of a country
+        System.out.println("\n**********Population Details in "+ targetCountry+ " Country********\n");
+        a.displayCountryPopulation(targetCountry);
+
+        // Call the method to display the population of a district
+        System.out.println("\n**********Population Details in " +targetDistrict+  " District********\n");
+        a.displayDistrictPopulation(targetDistrict);
+
+        // Call the method to display the population of a city
+        System.out.println("\n**********Population Details inc"+ targetCity +" City********\n");
+        a.displayCityPopulation(targetCity);
+
+        // Call the method to display language populations
+        System.out.println("\n********** Language Populations ********\n");
+        a.displayLanguagePopulations();
 
         // Disconnect from database
         a.disconnect();
@@ -264,6 +343,35 @@ public class App
     }
 
     /**
+     * Prints the details of a list of capital cities in a formatted table.
+     *
+     * @param capitals The list of Capital objects to print.
+     */
+    public void printCapitalCities(ArrayList<Capital> capitals) {
+        // Check if capitals is not null
+        if (capitals == null || capitals.isEmpty()) {
+            System.out.println("No capital cities");
+            return;
+        }
+
+        // Print header
+        System.out.println(String.format("%-15s %-35s %-45s %-15s",
+                "ID", "Name", "Country Name", "Population"));
+
+        // Loop over all capital cities in the list
+        for (Capital capital : capitals) {
+            if (capital == null)
+                continue;
+            // Format population with commas
+            NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+            String formattedPopulation = numberFormat.format(capital.getPopulation());
+            String capitalString = String.format("%-15s %-35s %-45s %-15s",
+                    capital.getId(), capital.getName(), capital.getCountryName(), formattedPopulation);
+            System.out.println(capitalString);
+        }
+    }
+
+    /**
      * Retrieves a list of all countries ordered by population in descending
      * order.
      *
@@ -307,7 +415,10 @@ public class App
                 country.setGovernmentForm(rset.getString("governmentForm"));
                 country.setHeadOfState(rset.getString("headOfState"));
                 country.setCapital(rset.getInt("capital"));
-                country.setCapitalName(rset.getString("capitalName"));
+
+                // Set capital name, handling null case
+                String capitalName = rset.getString("capitalName");
+                country.setCapitalName(capitalName != null ? capitalName : "no capital");
                 // Add the Country object to the ArrayList
                 countries.add(country);
             }
@@ -1257,5 +1368,843 @@ public class App
         }
     }
 
+    /**
+     * Retrieves all the capital cities in the world organized by the largest population to smallest.
+     *
+     * @return An ArrayList of Capital objects representing the capital cities.
+     *         Returns empty array list in case of an exception or failure.
+     * @throws SQLException If a database access error occurs.
+     */
+    public ArrayList<Capital> getAllCapitalCities() {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT ci.ID, ci.name AS cityName, c.name AS countryName, ci.population " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "ORDER BY ci.population DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract capital city information
+            ArrayList<Capital> capitals = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new Capital object
+                Capital capital = new Capital();
+                // Set capital attributes from the result set
+                capital.setId(rset.getInt("ID"));
+                // Set capital name, handling null case
+                String cityName = rset.getString("cityName");
+                capital.setName(cityName != null ? cityName : "no name found");
+                capital.setCountryName(rset.getString("countryName"));
+                capital.setPopulation(rset.getLong("population"));
+                // Add the Capital object to the ArrayList
+                capitals.add(capital);
+            }
+            // Check if any capitals were found
+            if (capitals.isEmpty()) {
+                System.out.println("No capital cities found");
+            }
+            // Return the list of capital cities
+            return capitals;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get capital city details");
+            // Return an empty list in case of an exception
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Retrieves a list of capital cities based on the specified continent, ordered by
+     * population in descending order.
+     *
+     * @param continent The continent to filter capital cities.
+     * @return An ArrayList of Capital objects representing capital cities in the specified
+     *         continent, ordered by population in descending order.
+     */
+    public ArrayList<Capital> capitalCitiesByContinent(String continent) {
+        try {
+            if (continent == null) {
+                System.out.println("Continent cannot be null");
+                return null;
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT ci.ID, ci.name AS cityName, c.name AS countryName, ci.population " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "WHERE c.continent = '" + continent + "' " +
+                            "ORDER BY ci.population DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract capital city information
+            ArrayList<Capital> capitals = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new Capital object
+                Capital capital = new Capital();
+                // Set capital attributes from the result set
+                capital.setId(rset.getInt("ID"));
+                capital.setName(rset.getString("cityName"));
+                capital.setCountryName(rset.getString("countryName"));
+                capital.setPopulation(rset.getLong("population"));
+                // Add the Capital object to the ArrayList
+                capitals.add(capital);
+            }
+            // Check if any capital cities were found for the given continent
+            if (capitals.isEmpty()) {
+                System.out.println("No capital cities found for continent: " + continent);
+            }
+            // Return the list of capital cities
+            return capitals;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get capital city details by continent");
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Retrieves a list of capital cities based on the specified region, ordered by
+     * population in descending order.
+     *
+     * @param region The region to filter capital cities.
+     * @return An ArrayList of Capital objects representing capital cities in the specified
+     *         region, ordered by population in descending order.
+     */
+    public ArrayList<Capital> capitalCitiesByRegion(String region) {
+        try {
+            if (region == null) {
+                System.out.println("Region cannot be null");
+                return null;
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT ci.ID, ci.name AS cityName, c.name AS countryName, ci.population " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "WHERE c.region = '" + region + "' " +
+                            "ORDER BY ci.population DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract capital city information
+            ArrayList<Capital> capitals = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new Capital object
+                Capital capital = new Capital();
+                // Set capital attributes from the result set
+                capital.setId(rset.getInt("ID"));
+                capital.setName(rset.getString("cityName"));
+                capital.setCountryName(rset.getString("countryName"));
+                capital.setPopulation(rset.getLong("population"));
+                // Add the Capital object to the ArrayList
+                capitals.add(capital);
+            }
+            // Check if any capital cities were found for the given region
+            if (capitals.isEmpty()) {
+                System.out.println("No capital cities found for region: " + region);
+            }
+            // Return the list of capital cities
+            return capitals;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get capital city details by region");
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Displays the top N populated capital cities in the world based on population in descending order.
+     *
+     * @param topN The number of top populated capital cities to display.
+     */
+    public ArrayList<Capital> displayTopPopulatedCapitalCitiesInWorld(int topN) {
+        // Check if topN is non-positive
+        if (topN < 0) {
+            System.out.println("Invalid input: topN should be a positive integer.");
+            return new ArrayList<>();
+        }
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT ci.ID, ci.name AS cityName, c.name AS countryName, ci.population " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "ORDER BY ci.population DESC " +
+                            "LIMIT " + topN;
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract capital city information
+            ArrayList<Capital> capitals = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new Capital object
+                Capital capital = new Capital();
+                // Set capital attributes from the result set
+                capital.setId(rset.getInt("ID"));
+                capital.setName(rset.getString("cityName"));
+                capital.setCountryName(rset.getString("countryName"));
+                capital.setPopulation(rset.getLong("population"));
+                // Add the Capital object to the ArrayList
+                capitals.add(capital);
+            }
+
+            // Check if any capital cities were found
+            if (capitals.isEmpty()) {
+                System.out.println("No capital cities found");
+            } else {
+                // Print the top N populated capital cities in the world
+                printCapitalCities(capitals);
+            }
+            return capitals;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get top populated capital cities in the world");
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Displays the top N populated capital cities in a continent based on population in descending order.
+     *
+     * @param topN      The number of top populated capital cities to display.
+     * @param continent The continent to filter capital cities.
+     */
+    public ArrayList<Capital> displayTopPopulatedCapitalCitiesInContinent(int topN, String continent) {
+        // Check if topN is non-positive
+        if (topN < 0) {
+            System.out.println("Invalid input: topN should be a positive integer.");
+            return new ArrayList<>();
+        }
+        try {
+            if (continent == null) {
+                System.out.println("Continent cannot be null");
+                return null;
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT ci.ID, ci.name AS cityName, c.name AS countryName, ci.population " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "WHERE c.continent = '" + continent + "' " +
+                            "ORDER BY ci.population DESC " +
+                            "LIMIT " + topN;
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract capital city information
+            ArrayList<Capital> capitals = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new Capital object
+                Capital capital = new Capital();
+                // Set capital attributes from the result set
+                capital.setId(rset.getInt("ID"));
+                capital.setName(rset.getString("cityName"));
+                capital.setCountryName(rset.getString("countryName"));
+                capital.setPopulation(rset.getLong("population"));
+                // Add the Capital object to the ArrayList
+                capitals.add(capital);
+            }
+
+            // Check if any capital cities were found for the given continent
+            if (capitals.isEmpty()) {
+                System.out.println("No capital cities found for Top: " + topN + " in continent: " + continent);
+            } else {
+                // Print the top N populated capital cities in the continent
+                printCapitalCities(capitals);
+            }
+            return capitals;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get top populated capital cities in the continent");
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Displays the top N populated capital cities in a region based on population in descending order.
+     *
+     * @param topN   The number of top populated capital cities to display.
+     * @param region The region to filter capital cities.
+     */
+    public ArrayList<Capital> displayTopPopulatedCapitalCitiesInRegion(int topN, String region) {
+        // Check if topN is non-positive
+        if (topN < 0) {
+            System.out.println("Invalid input: topN should be a positive integer.");
+            return new ArrayList<>();
+        }
+        try {
+            if (region == null) {
+                System.out.println("Region cannot be null");
+                return null;
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT ci.ID, ci.name AS cityName, c.name AS countryName, ci.population " +
+                            "FROM country c " +
+                            "LEFT JOIN city ci ON c.capital = ci.id " +
+                            "WHERE c.region = '" + region + "' " +
+                            "ORDER BY ci.population DESC " +
+                            "LIMIT " + topN;
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Extract capital city information
+            ArrayList<Capital> capitals = new ArrayList<>();
+            while (rset.next()) {
+                // Create a new Capital object
+                Capital capital = new Capital();
+                // Set capital attributes from the result set
+                capital.setId(rset.getInt("ID"));
+                capital.setName(rset.getString("cityName"));
+                capital.setCountryName(rset.getString("countryName"));
+                capital.setPopulation(rset.getLong("population"));
+                // Add the Capital object to the ArrayList
+                capitals.add(capital);
+            }
+
+            // Check if any capital cities were found for the given region
+            if (capitals.isEmpty()) {
+                System.out.println("No capital cities found for region: " + region);
+            } else {
+                // Print the top N populated capital cities in the region
+                printCapitalCities(capitals);
+            }
+            return capitals;
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get top populated capital cities in the region");
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Displays the population of people, people living in cities, and people not
+     * living in cities in each continent.
+     */
+    public void displayPopulationDetailsByContinent() {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT continent, " +
+                            "SUM(country.population) AS totalPopulation, " +
+                            "SUM(city_populations.population_in_cities) AS populationInCities " +
+                            "FROM country " +
+                            "LEFT JOIN ( " +
+                            "    SELECT CountryCode, SUM(Population) AS population_in_cities " +
+                            "    FROM city " +
+                            "    GROUP BY CountryCode " +
+                            ") AS city_populations ON country.Code = city_populations.CountryCode " +
+                            "GROUP BY continent " +
+                            "ORDER BY continent ASC"; // Add ORDER BY clause
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Print header
+            System.out.println(String.format("%-20s %-20s %-20s %-35s %-35s %-35s",
+                    "Continent", "Total Population", "Population in Cities", "Population In Cities Percentage", "Population Not in Cities", "Population Not In Cities Percentage"));
+
+            // Loop over the results
+            while (rset.next()) {
+                String continent = rset.getString("continent");
+                long totalPopulation = rset.getLong("totalPopulation");
+                long populationInCities = rset.getLong("populationInCities");
+                long populationNotInCities = totalPopulation - populationInCities;
+
+                // Calculate percentages, handling division by zero
+                double populationInCitiesPercentage = (totalPopulation == 0) ? 0 : (double) populationInCities / totalPopulation * 100;
+                double populationNotInCitiesPercentage = (totalPopulation == 0) ? 0 : (double) populationNotInCities / totalPopulation * 100;
+
+                // Format numbers with commas
+                String formattedTotalPopulation = String.format("%,d", totalPopulation);
+                String formattedPopulationInCities = String.format("%,d", populationInCities);
+                String formattedPopulationNotInCities = String.format("%,d", populationNotInCities);
+
+                // Format percentages with two decimal places
+                String formattedPopulationInCitiesPercentage = String.format("%.2f%%", populationInCitiesPercentage);
+                String formattedPopulationNotInCitiesPercentage = String.format("%.2f%%", populationNotInCitiesPercentage);
+
+                // Print the details with % sign and formatted numbers
+                System.out.println(String.format("%-20s %-20s %-20s %-35s %-35s %-35s",
+                        continent, formattedTotalPopulation, formattedPopulationInCities, formattedPopulationInCitiesPercentage,
+                        formattedPopulationNotInCities, formattedPopulationNotInCitiesPercentage));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details by continent");
+        }
+    }
+
+    /**
+     * Displays the population of people, people living in cities, and people not living in cities in each region.
+     */
+    public void displayPopulationDetailsByRegion() {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT region, " +
+                            "SUM(country.population) AS totalPopulation, " +
+                            "SUM(city_populations.population_in_cities) AS populationInCities " +
+                            "FROM country " +
+                            "LEFT JOIN ( " +
+                            "    SELECT CountryCode, SUM(Population) AS population_in_cities " +
+                            "    FROM city " +
+                            "    GROUP BY CountryCode " +
+                            ") AS city_populations ON country.Code = city_populations.CountryCode " +
+                            "GROUP BY region " +
+                            "ORDER BY region ASC"; // Add ORDER BY clause
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Print header
+            System.out.println(String.format("%-30s %-20s %-20s %-35s %-35s %-35s",
+                    "Region", "Total Population", "Population in Cities", "Population In Cities Percentage", "Population Not in Cities", "Population Not In Cities Percentage"));
+
+            // Loop over the results
+            while (rset.next()) {
+                String region = rset.getString("region");
+                long totalPopulation = rset.getLong("totalPopulation");
+                long populationInCities = rset.getLong("populationInCities");
+                long populationNotInCities = totalPopulation - populationInCities;
+
+                // Calculate percentages, handling division by zero
+                double populationInCitiesPercentage = (totalPopulation == 0) ? 0 : (double) populationInCities / totalPopulation * 100;
+                double populationNotInCitiesPercentage = (totalPopulation == 0) ? 0 : (double) populationNotInCities / totalPopulation * 100;
+
+                // Format numbers with commas
+                String formattedTotalPopulation = String.format("%,d", totalPopulation);
+                String formattedPopulationInCities = String.format("%,d", populationInCities);
+                String formattedPopulationNotInCities = String.format("%,d", populationNotInCities);
+
+                // Format percentages with two decimal places
+                String formattedPopulationInCitiesPercentage = String.format("%.2f%%", populationInCitiesPercentage);
+                String formattedPopulationNotInCitiesPercentage = String.format("%.2f%%", populationNotInCitiesPercentage);
+
+                // Print the details with % sign and formatted numbers
+                System.out.println(String.format("%-30s %-20s %-20s %-35s %-35s %-35s",
+                        region, formattedTotalPopulation, formattedPopulationInCities, formattedPopulationInCitiesPercentage,
+                        formattedPopulationNotInCities, formattedPopulationNotInCitiesPercentage));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details by region");
+        }
+    }
+
+    /**
+     * Displays the population details of people, people living in cities, and people not
+     * living in cities in each country.
+     */
+    public void displayPopulationDetailsByCountry() {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT country.Name AS countryName, " +
+                            "SUM(country.population) AS totalPopulation, " +
+                            "SUM(city_populations.population_in_cities) AS populationInCities " +
+                            "FROM country " +
+                            "LEFT JOIN ( " +
+                            "    SELECT CountryCode, SUM(Population) AS population_in_cities " +
+                            "    FROM city " +
+                            "    GROUP BY CountryCode " +
+                            ") AS city_populations ON country.Code = city_populations.CountryCode " +
+                            "GROUP BY countryName " +
+                            "ORDER BY countryName ASC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Print header
+            System.out.println(String.format("%-45s %-20s %-20s %-35s %-35s",
+                    "Country", "Total Population", "Population in Cities", "Population In Cities Percentage", "Population Not in Cities Percentage"));
+
+            // Loop over the results
+            while (rset.next()) {
+                String countryName = rset.getString("countryName");
+                long totalPopulation = rset.getLong("totalPopulation");
+                long populationInCities = rset.getLong("populationInCities");
+                long populationNotInCities = totalPopulation - populationInCities;
+
+                // Calculate percentages, handling division by zero
+                double populationInCitiesPercentage = (totalPopulation == 0) ? 0 : (double) populationInCities / totalPopulation * 100;
+                double populationNotInCitiesPercentage = (totalPopulation == 0) ? 0 : (double) populationNotInCities / totalPopulation * 100;
+
+                // Format numbers with commas
+                String formattedTotalPopulation = String.format("%,d", totalPopulation);
+                String formattedPopulationInCities = String.format("%,d", populationInCities);
+
+                // Format percentages with two decimal places
+                String formattedPopulationInCitiesPercentage = String.format("%.2f%%", populationInCitiesPercentage);
+                String formattedPopulationNotInCitiesPercentage = String.format("%.2f%%", populationNotInCitiesPercentage);
+
+                // Print the details with % sign and formatted numbers
+                System.out.println(String.format("%-45s %-20s %-20s %-35s %-35s",
+                        countryName, formattedTotalPopulation, formattedPopulationInCities, formattedPopulationInCitiesPercentage,
+                        formattedPopulationNotInCitiesPercentage));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details by country");
+        }
+    }
+
+
+    /**
+     * Displays the population of the world.
+     */
+    public long displayWorldPopulation() {
+        long worldPopulation = 0;
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT SUM(population) AS worldPopulation " +
+                            "FROM country";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Loop over the results
+            if (rset.next()) {
+                worldPopulation = rset.getLong("worldPopulation");
+
+                // Format numbers with commas
+                String formattedWorldPopulation = String.format("%,d", worldPopulation);
+
+                // Print the details
+                System.out.println(String.format("%-20s",
+                        formattedWorldPopulation));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get world population details");
+        }
+        return worldPopulation;
+    }
+
+    /**
+     * Displays the population of a continent.
+     *
+     * @param continent The continent for which to display the population.
+     */
+    public long displayContinentPopulation(String continent) {
+        long continentPopulation = 0;
+        try {
+            if (continent == null) {
+                System.out.println("Region cannot be null");
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT SUM(population) AS continentPopulation " +
+                            "FROM country " +
+                            "WHERE continent = '" + continent + "'";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Loop over the results
+            if (rset.next()) {
+                continentPopulation = rset.getLong("continentPopulation");
+
+                // Format numbers with commas
+                String formattedContinentPopulation = String.format("%,d", continentPopulation);
+
+                // Print the details
+                System.out.println(String.format("%-20s",
+                        formattedContinentPopulation));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get continent population details");
+        }
+        return continentPopulation;
+    }
+
+    /**
+     * Displays the population of a region.
+     *
+     * @param region The region for which to display the population.
+     */
+    public long displayRegionPopulation(String region) {
+        long regionPopulation = 0;
+        try {
+            if (region == null) {
+                System.out.println("Region cannot be null");
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT SUM(population) AS regionPopulation " +
+                            "FROM country " +
+                            "WHERE region = '" + region + "'";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+
+            // Loop over the results
+            if (rset.next()) {
+                regionPopulation = rset.getLong("regionPopulation");
+
+                // Format numbers with commas
+                String formattedRegionPopulation = String.format("%,d", regionPopulation);
+
+                // Print the details
+                System.out.println(String.format("%-20s",
+                        formattedRegionPopulation));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get region population details");
+        }
+        return regionPopulation;
+    }
+
+    /**
+     * Displays the population of a country.
+     *
+     * @param country The country for which to display the population.
+     */
+    public long displayCountryPopulation(String country) {
+        long countryPopulation = 0;
+        try {
+            if (country == null) {
+                System.out.println("Region cannot be null");
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT population " +
+                            "FROM country " +
+                            "WHERE name = '" + country + "'";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+
+            // Loop over the results
+            if (rset.next()) {
+                countryPopulation = rset.getLong("population");
+
+                // Format numbers with commas
+                String formattedCountryPopulation = String.format("%,d", countryPopulation);
+
+                // Print the details
+                System.out.println(String.format("%-20s",
+                        formattedCountryPopulation));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get country population details");
+        }
+        return countryPopulation;
+    }
+
+    /**
+     * Displays the population of a district.
+     *
+     * @param district The district for which to display the population.
+     */
+    public long displayDistrictPopulation(String district) {
+        long districtPopulation = 0;
+        try {
+            if (district == null) {
+                System.out.println("Region cannot be null");
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT SUM(population) AS districtPopulation " +
+                            "FROM city " +
+                            "WHERE district = '" + district + "'";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+
+            // Loop over the results
+            if (rset.next()) {
+                districtPopulation = rset.getLong("districtPopulation");
+
+                // Format numbers with commas
+                String formattedDistrictPopulation = String.format("%,d", districtPopulation);
+
+                // Print the details
+                System.out.println(String.format("%-20s",
+                        formattedDistrictPopulation));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get district population details");
+        }
+        return districtPopulation;
+    }
+
+
+    /**
+     * Displays the population of a city.
+     *
+     * @param cityName The city for which to display the population.
+     */
+    public long displayCityPopulation(String cityName) {
+        long cityPopulation = 0;
+        try {
+            if (cityName == null) {
+                System.out.println("Region cannot be null");
+            }
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT population " +
+                            "FROM city " +
+                            "WHERE name = '" + cityName + "'";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Loop over the results
+            if (rset.next()) {
+                cityPopulation = rset.getLong("population");
+
+                // Format numbers with commas
+                String formattedCityPopulation = String.format("%,d", cityPopulation);
+
+                // Print the details
+                System.out.println(String.format("%-20s",
+                        formattedCityPopulation));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get city population details");
+        }
+        return cityPopulation;
+    }
+
+    /**
+     * Displays the populations of specific languages from greatest to smallest,
+     * including the percentage of the world population for each language.
+     * The languages included are Chinese, English, Hindi, Spanish, and Arabic.
+     */
+
+    public void displayLanguagePopulations() {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT cl.language, " +
+                            "ROUND(SUM(cl.percentage * c.population)/100) AS totalPopulation, " +
+                            "SUM(cl.percentage * c.population) / (SELECT SUM(c.population) FROM country c) AS populationPercentage " +
+                            "FROM countrylanguage cl " +
+                            "JOIN country c ON cl.countrycode = c.code " +
+                            "WHERE cl.language IN ('Chinese', 'English', 'Hindi', 'Spanish', 'Arabic') " +
+                            "GROUP BY cl.language " +
+                            "ORDER BY totalPopulation DESC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Print header
+            System.out.println(String.format("%-20s %-20s %-20s",
+                    "Language", "Total Population", "Population Percentage"));
+
+            // Loop over the results
+            while (rset.next()) {
+                String language = rset.getString("language");
+                long totalPopulation = rset.getLong("totalPopulation");
+                double populationPercentage = rset.getDouble("populationPercentage");
+
+                // Format numbers with commas
+                String formattedTotalPopulation = String.format("%,d", totalPopulation);
+
+                // Format percentage with two decimal places
+                String formattedPopulationPercentage = String.format("%.2f%%", populationPercentage);
+
+                // Print the details
+                System.out.println(String.format("%-20s %-20s %-20s",
+                        language, formattedTotalPopulation, formattedPopulationPercentage));
+            }
+
+        } catch (Exception e) {
+            // Print error messages in case of an exception
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get language populations");
+        }
+    }
 
 }
