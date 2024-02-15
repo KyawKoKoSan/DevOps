@@ -1570,6 +1570,57 @@ public class AppIntegrationTest
                 "Population should meet exception'");
     }
 
+    /**
+     * Test case to verify the behavior of displayRegionPopulation when a null region is provided.
+     */
+    @Test
+    void testDisplayRegionPopulationNullRegion() {
+        // Define a null region for testing
+        String region = null;
+
+        // Call the method under test
+        long population = app.displayRegionPopulation(region);
+
+        // Check if population is 0
+        assertEquals(0, population, "Population should be 0 for null region input");
+    }
+
+    /**
+     * Test case to verify the behavior of displayRegionPopulation when an invalid region is provided.
+     */
+    @Test
+    void testDisplayRegionPopulationInvalidRegion() {
+        // Define an invalid region name for testing
+        String region = "InvalidRegion";
+
+        // Call the method under test
+        long population = app.displayRegionPopulation(region);
+
+        // Check if population is 0
+        assertEquals(0, population, "Population should be 0 for an invalid region");
+    }
+
+    /**
+     * Test case to verify the behavior of displayRegionPopulation when correct input is provided.
+     */
+    @Test
+    void testDisplayRegionPopulationWithCorrectInput() {
+        // Define a region for testing
+        String region = "Southeast Asia";
+
+        // Call the method under test
+        long population = app.displayRegionPopulation(region);
+
+        // Check if population is greater than or equal to 0
+        assertTrue(population >= 0, "Population should be non-negative for a valid region");
+
+        // Check if population is greater than 0
+        assertTrue(population > 0, "Population should be greater than 0 for a valid region");
+
+        assertEquals(518541000L, population,
+                "Population should meet exception'");
+    }
+
 
 
 
