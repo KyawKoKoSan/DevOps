@@ -38,7 +38,7 @@ The organization gains access to accurate and current information regarding the 
 Failed End Condition
 ---------------------------------
 
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process and the system will show "Failed to get country population details" message.
 
 Primary Actor  
 ---------------------------------
