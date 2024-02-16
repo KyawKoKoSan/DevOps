@@ -36,9 +36,8 @@ A list of all capital cities around the world, organized by population from the 
 
 Failed End Condition
 ==============================================================================
-No list is generated, or an error occurs during the retrieval process and the system will show "Failed to get capital city details" message.
 
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process and the system will show "Failed to get capital city details" message.
 
 Primary Actor
 ==============================================================================
