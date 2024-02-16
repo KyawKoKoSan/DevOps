@@ -35,7 +35,7 @@ The organization receives a comprehensive report listing the number of speakers 
 Failed End Condition
 ---------------------------------
 
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process and the system will show "Failed to get language populations" message.
 
 Primary Actor
 ---------------------------------
