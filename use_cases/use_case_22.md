@@ -34,7 +34,7 @@ A list of the top ten populated capital cities of the region ,  is provided to t
 Failed End Condition
 ==============================================================================
 
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process and the system will show "Failed to get top populated capital cities in the region" message.
 
 Primary Actor
 ==============================================================================
