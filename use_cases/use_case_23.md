@@ -32,7 +32,7 @@ A detailed analytical report is generated, presenting population data for people
 Failed End Condition
 ---------------------------------
 
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process and the system will show "Failed to get population details by continent" message.
 
 Primary Actor
 ---------------------------------
