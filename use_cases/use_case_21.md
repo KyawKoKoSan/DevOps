@@ -32,8 +32,7 @@ A list of the top ten populated capital cities of the continent,  is provided to
 Failed End Condition
 ==============================================================================
 
-
-No list is generated, or an error occurs during the retrieval process.
+No list is generated, or an error occurs during the retrieval process and the system will show "Failed to get top populated capital cities in the continent" message.
 
 Primary Actor
 ==============================================================================
