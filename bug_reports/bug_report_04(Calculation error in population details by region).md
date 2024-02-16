@@ -1,9 +1,9 @@
 ---
 description: "Calculation error in population details by region"
-expected_behavior: "should show correct calculated numbers instead of wrong total population"
-actual_behaviour: "showing wrong total population instead of correct calculated numbers"
+expected_behavior: "Should show correct calculated numbers instead of wrong total population"
+actual_behaviour: "Showing wrong total population instead of correct calculated numbers"
 priority: "P2"
-impact: "moderate impact as that is not important to show the message 'correct calculated numbers' instead of wrong total population"
+impact: "Moderate impact as that is not important to show the message 'correct calculated numbers' instead of wrong total population"
 screenshots: |
   [Bug Screenshot 1](https://github.com/AdamCold/group7/blob/develop/bug_reports/bugs_image/bug4.png)
 
